@@ -60,7 +60,7 @@ public class AuxiliarController {
 		try {
 			auxiliarRepositorio.save(auxiliar);
 			auxiliarRepositorio.flush();
-			return auxiliar.toString();
+			return ("Alterado com Sucesso");
 		} catch (Exception e) {
 			return e.getMessage();
 		}

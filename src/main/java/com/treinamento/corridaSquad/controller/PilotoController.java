@@ -57,7 +57,7 @@ public class PilotoController {
 		try {
 			pilotoRepositorio.save(piloto);
 			pilotoRepositorio.flush();
-			return piloto.toString();
+			return ("Alterado com Sucesso");
 		} catch (Exception e) {
 			return e.getMessage();
 		}

@@ -57,7 +57,7 @@ public class MacanicoController {
 		try {
 			mecanicoRepositorio.save(mecanico);
 			mecanicoRepositorio.flush();
-			return mecanico.toString();
+			return ("Alterado com Sucesso");
 		} catch (Exception e) {
 			return e.getMessage();
 		}
