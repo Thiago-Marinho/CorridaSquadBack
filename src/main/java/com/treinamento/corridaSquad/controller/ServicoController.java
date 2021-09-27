@@ -25,7 +25,7 @@ public class ServicoController {
     CarroRepository carroRepositorio;
     @Autowired
     MecanicoRepository mecanicoRepository;
-
+    @CrossOrigin
     @GetMapping("listar")
     public List<Servico> listarPiloto() {
         List<Servico> lista = servicoRepositorio.findAll();
