@@ -17,8 +17,8 @@ public class Carro {
 	@Column(name="descricao", nullable = false)
 	private String descricao;
 	
-	@Column(name="placa", nullable = false)
-	private String placa;
+	@Column(name="numero", nullable = false)
+	private String numero;
 
 	public Integer getId() {
 		return id;
@@ -44,12 +44,12 @@ public class Carro {
 		this.descricao = descricao;
 	}
 
-	public String getPlaca() {
-		return placa;
+	public String getNumero() {
+		return numero;
 	}
 
-	public void setPlaca(String placa) {
-		this.placa = placa;
+	public void setNumero(String numero) {
+		this.numero = numero;
 	}
 	
 	

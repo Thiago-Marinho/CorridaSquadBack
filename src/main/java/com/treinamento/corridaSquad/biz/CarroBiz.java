@@ -26,6 +26,13 @@ public class CarroBiz {
             this.mensagens.mensagem.add("Nenhum uma equipe foi encontrada com o Id informado");
             valido=false;
         }
+        if(carro.getNumero().isBlank()){
+            this.mensagens.mensagem.add("O número do carro inserido não deve ser nulo");
+            valido=false;
+        }else if(carro.getNumero().length()>7){
+            this.mensagens.mensagem.add("O número do carro não deve possuir mais que 7 caracteres");
+            valido=false;
+        }
         if(!valido){
             this.mensagens.mensagem.add("O carro informado não é válido!");
         }
