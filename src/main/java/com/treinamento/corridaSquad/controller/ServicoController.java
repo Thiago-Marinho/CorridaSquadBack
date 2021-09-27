@@ -62,7 +62,6 @@ public class ServicoController {
                 if(servicoSearch.isPresent()){
                     Servico oldServico = servicoSearch.get();
                     oldServico.setDescricao(novoServico.getDescricao());
-                    oldServico.setData(novoServico.getData());
                     oldServico.setId_carro(novoServico.getId_carro());
                     oldServico.setId_mecanico(novoServico.getId_mecanico());
                     servicoRepositorio.save(oldServico);

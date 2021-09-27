@@ -29,11 +29,6 @@ public class CorridaBiz {
 			msg.mensagem.add("O nome nao pode ser composto somente por espaço");
 			valido = false;
 		}
-		if(corrida.getData() == null) {
-			msg.mensagem.add("O nome nao pode ser composto somente por espaço");
-			valido = false;
-		}
-		
 		return valido;
 	}
 

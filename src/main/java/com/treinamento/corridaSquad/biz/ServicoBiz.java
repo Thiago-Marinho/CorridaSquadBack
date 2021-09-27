@@ -35,10 +35,6 @@ public class ServicoBiz {
             this.mensagens.mensagem.add("Nenhum carro foi encontrado com o Id informado");
             valido=false;
         }
-        if(servico.getData()==null){
-            this.mensagens.mensagem.add("A data inserida não deve ser nula");
-            valido=false;
-        }
         if(!valido){
             this.mensagens.mensagem.add("O servico informado não é válido!");
         }
