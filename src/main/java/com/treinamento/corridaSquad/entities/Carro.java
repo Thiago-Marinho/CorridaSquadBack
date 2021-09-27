@@ -1,27 +1,23 @@
 package com.treinamento.corridaSquad.entities;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
 @Table(name="carro")
 public class Carro {
 	
 	@Id
-	@GeneratedValue()
-	@Column(name="id")
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name="id", nullable = false)
 	private Integer id;
 	
-	@Column(name="id_equipe")
+	@Column(name="id_equipe", nullable = false)
 	private Integer id_equipe;
 	
-	@Column(name="descricao")
+	@Column(name="descricao", nullable = false)
 	private String descricao;
 	
-	@Column(name="placa")
+	@Column(name="placa", nullable = false)
 	private String placa;
 
 	public Integer getId() {
