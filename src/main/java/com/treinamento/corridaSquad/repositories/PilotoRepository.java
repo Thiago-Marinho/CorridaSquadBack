@@ -7,6 +7,5 @@ import com.treinamento.corridaSquad.entities.Piloto;
 
 @Repository
 public interface PilotoRepository extends JpaRepository<Piloto, Integer> {
-
 	
 }
