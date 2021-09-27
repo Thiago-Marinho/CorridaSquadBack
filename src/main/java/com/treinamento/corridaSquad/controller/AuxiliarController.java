@@ -12,36 +12,39 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.treinamento.corridaSquad.Mensagem;
-import com.treinamento.corridaSquad.biz.PilotoBiz;
-import com.treinamento.corridaSquad.entities.Piloto;
+import com.treinamento.corridaSquad.biz.AuxiliarBiz;
+import com.treinamento.corridaSquad.entities.Auxiliar;
+import com.treinamento.corridaSquad.repositories.AuxiliarRepository;
 import com.treinamento.corridaSquad.repositories.EquipeRepository;
-import com.treinamento.corridaSquad.repositories.PilotoRepository;
+import com.treinamento.corridaSquad.repositories.MecanicoRepository;
 
 @RestController
 @CrossOrigin("http://localhost:4200")
-@RequestMapping("piloto")
-public class PilotoController {
+@RequestMapping("auxiliar")
+public class AuxiliarController {
 
 	@Autowired
-	private PilotoRepository pilotoRepositorio;
+	private AuxiliarRepository auxiliarRepositorio;
 	@Autowired
 	private EquipeRepository equipeRepositorio;
-
+	@Autowired
+	private MecanicoRepository mecanicoRepositorio;
+		
 	@GetMapping("listar")
-	public List<Piloto> listarPiloto() {
-		List<Piloto> lista = pilotoRepositorio.findAll();
+	public List<Auxiliar> listarAuxiliar() {
+		List<Auxiliar> lista = auxiliarRepositorio.findAll();
 		return lista;
 	}
-
+	
 	@PostMapping("incluir")
-	public Mensagem incluir(@RequestBody Piloto novoPiloto) {
+	public Mensagem incluir(@RequestBody Auxiliar novoAuxiliar) {
 
-		PilotoBiz validador = new PilotoBiz(pilotoRepositorio, equipeRepositorio);
+		AuxiliarBiz validador = new AuxiliarBiz(auxiliarRepositorio, equipeRepositorio, mecanicoRepositorio);
 
 		try {
-			if (validador.validar(novoPiloto)) {
-				pilotoRepositorio.save(novoPiloto);
-				pilotoRepositorio.flush();
+			if (validador.validar(novoAuxiliar)) {
+				auxiliarRepositorio.save(novoAuxiliar);
+				auxiliarRepositorio.flush();
 				validador.getMensagem().mensagem.add("Incluido com sucesso");
 			}
 		} catch (Exception e) {
@@ -52,12 +55,12 @@ public class PilotoController {
 	}
 
 	@PutMapping("alterar")
-	public String alterarPiloto(@RequestBody Piloto piloto) {
+	public String alterarAuxiliar(@RequestBody Auxiliar auxiliar) {
 
 		try {
-			pilotoRepositorio.save(piloto);
-			pilotoRepositorio.flush();
-			return piloto.toString();
+			auxiliarRepositorio.save(auxiliar);
+			auxiliarRepositorio.flush();
+			return auxiliar.toString();
 		} catch (Exception e) {
 			return e.getMessage();
 		}
