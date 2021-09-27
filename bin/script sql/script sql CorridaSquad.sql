@@ -31,7 +31,6 @@ CREATE TABLE corrida (
 	data_corrida datetime NOT NULL
 )
 GO
-alter table corrida alter column data_corrida varchar(50)
 
 CREATE TABLE carro_corrida_piloto (
 	id int NOT NULL PRIMARY KEY IDENTITY(1,1),
@@ -48,7 +47,6 @@ CREATE TABLE mecanico (
 )
 GO
 
-
 CREATE TABLE servicos (
 	id int NOT NULL PRIMARY KEY IDENTITY(1,1),
 	id_mecanico int NOT NULL REFERENCES mecanico(id),
@@ -56,7 +54,6 @@ CREATE TABLE servicos (
 	descricao varchar(255) NOT NULL,
 	data_servico datetime NOT NULL
 )
-alter table servicos alter column data_servico varchar(50)
 GO
 
 CREATE TABLE auxiliar (

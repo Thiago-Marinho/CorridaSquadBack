@@ -22,7 +22,7 @@ public class Corrida {
 	private String descricao;
 	
 	@Column(name="data_corrida")
-	private Date data;
+	private String data;
 
 	public Integer getId() {
 		return id;
@@ -40,11 +40,11 @@ public class Corrida {
 		this.descricao = descricao;
 	}
 
-	public Date getData() {
+	public String getData() {
 		return data;
 	}
 
-	public void setData(Date data) {
+	public void setData(String data) {
 		this.data = data;
 	}
 	

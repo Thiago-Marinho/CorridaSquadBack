@@ -1,7 +1,5 @@
 package com.treinamento.corridaSquad.entities;
 
-import java.util.Date;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -28,7 +26,7 @@ public class Servico {
 	private String descricao;
 	
 	@Column(name="data_servico")
-	private Date data;
+	private String data;
 
 	public Integer getId() {
 		return id;
@@ -62,11 +60,11 @@ public class Servico {
 		this.descricao = descricao;
 	}
 
-	public Date getData() {
+	public String getData() {
 		return data;
 	}
 
-	public void setData(Date data) {
+	public void setData(String data) {
 		this.data = data;
 	}
 	
