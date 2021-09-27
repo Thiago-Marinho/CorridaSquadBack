@@ -52,14 +52,21 @@ public class MacanicoController {
 	}
 
 	@PutMapping("alterar")
-	public String alterar(@RequestBody Mecanico mecanico) {
+	public Mensagem alterar(@RequestBody Mecanico mecanico) {
 
+		MecanicoBiz validador = new MecanicoBiz(mecanicoRepositorio, equipeRepositorio);
 		try {
+			if (validador.validar(mecanico)) {
 			mecanicoRepositorio.save(mecanico);
-			mecanicoRepositorio.flush();
-			return ("Alterado com Sucesso");
+			mecanicoRepositorio.flush();			
+			validador.getMensagem().mensagem.add("Alterado com sucesso");
+			}else {
+            	validador.getMensagem().mensagem.add("Erro ao alterar");
+            }
+			
 		} catch (Exception e) {
-			return e.getMessage();
+			validador.getMensagem().mensagem.add("Erro ao alterar: " + e.getMessage());
 		}
+		return validador.getMensagem();
 	}
 }
