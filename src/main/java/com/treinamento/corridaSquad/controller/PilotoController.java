@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.treinamento.corridaSquad.Mensagem;
+import com.treinamento.corridaSquad.biz.AuxiliarBiz;
 import com.treinamento.corridaSquad.biz.PilotoBiz;
 import com.treinamento.corridaSquad.entities.Piloto;
 import com.treinamento.corridaSquad.repositories.EquipeRepository;
@@ -52,14 +53,21 @@ public class PilotoController {
 	}
 
 	@PutMapping("alterar")
-	public String alterarPiloto(@RequestBody Piloto piloto) {
+	public Mensagem alterarPiloto(@RequestBody Piloto piloto) {
 
+		PilotoBiz validador = new PilotoBiz(pilotoRepositorio, equipeRepositorio);
 		try {
+			if (validador.validar(piloto)) {
 			pilotoRepositorio.save(piloto);
-			pilotoRepositorio.flush();
-			return ("Alterado com Sucesso");
+			pilotoRepositorio.flush();			
+			validador.getMensagem().mensagem.add("Alterado com sucesso");
+			}else {
+            	validador.getMensagem().mensagem.add("Erro ao alterar");
+            }
+			
 		} catch (Exception e) {
-			return e.getMessage();
+			validador.getMensagem().mensagem.add("Erro ao alterar: " + e.getMessage());
 		}
+		return validador.getMensagem();
 	}
 }

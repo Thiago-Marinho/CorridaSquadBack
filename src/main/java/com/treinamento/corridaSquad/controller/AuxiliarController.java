@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.treinamento.corridaSquad.Mensagem;
 import com.treinamento.corridaSquad.biz.AuxiliarBiz;
+import com.treinamento.corridaSquad.biz.MecanicoBiz;
 import com.treinamento.corridaSquad.entities.Auxiliar;
 import com.treinamento.corridaSquad.repositories.AuxiliarRepository;
 import com.treinamento.corridaSquad.repositories.EquipeRepository;
@@ -55,14 +56,21 @@ public class AuxiliarController {
 	}
 
 	@PutMapping("alterar")
-	public String alterarAuxiliar(@RequestBody Auxiliar auxiliar) {
+	public Mensagem alterarAuxiliar(@RequestBody Auxiliar auxiliar) {
 
+		AuxiliarBiz validador = new AuxiliarBiz(auxiliarRepositorio, equipeRepositorio, mecanicoRepositorio);
 		try {
+			if (validador.validar(auxiliar)) {
 			auxiliarRepositorio.save(auxiliar);
-			auxiliarRepositorio.flush();
-			return ("Alterado com Sucesso");
+			auxiliarRepositorio.flush();			
+			validador.getMensagem().mensagem.add("Alterado com sucesso");
+			}else {
+            	validador.getMensagem().mensagem.add("Erro ao alterar");
+            }
+			
 		} catch (Exception e) {
-			return e.getMessage();
+			validador.getMensagem().mensagem.add("Erro ao alterar: " + e.getMessage());
 		}
+		return validador.getMensagem();
 	}
 }

@@ -20,7 +20,7 @@ import com.treinamento.corridaSquad.repositories.MecanicoRepository;
 @RestController
 @CrossOrigin("http://localhost:4200")
 @RequestMapping("mecanico")
-public class MacanicoController {
+public class MecanicoController {
 
 	@Autowired
 	private MecanicoRepository mecanicoRepositorio;
