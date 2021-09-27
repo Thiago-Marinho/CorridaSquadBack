@@ -25,9 +25,6 @@ public class Servico {
 	@Column(name="descricao")
 	private String descricao;
 	
-	@Column(name="data_servico")
-	private String data;
-
 	public Integer getId() {
 		return id;
 	}
@@ -59,15 +56,4 @@ public class Servico {
 	public void setDescricao(String descricao) {
 		this.descricao = descricao;
 	}
-
-	public String getData() {
-		return data;
-	}
-
-	public void setData(String data) {
-		this.data = data;
-	}
-	
-	
-
 }
