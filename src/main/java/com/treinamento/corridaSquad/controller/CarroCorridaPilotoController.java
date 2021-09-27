@@ -23,7 +23,7 @@ import com.treinamento.corridaSquad.repositories.PilotoRepository;
 
 @RestController
 @RequestMapping("carrocorridapiloto")
-@CrossOrigin("http://localhost:4200")
+@CrossOrigin
 public class CarroCorridaPilotoController {
 	@Autowired
 	private CarroCorridaPilotoRepository carroCorridaPilotoRepository;

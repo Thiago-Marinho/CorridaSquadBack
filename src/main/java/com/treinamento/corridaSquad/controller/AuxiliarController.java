@@ -20,7 +20,7 @@ import com.treinamento.corridaSquad.repositories.EquipeRepository;
 import com.treinamento.corridaSquad.repositories.MecanicoRepository;
 
 @RestController
-@CrossOrigin("http://localhost:4200")
+@CrossOrigin
 @RequestMapping("auxiliar")
 public class AuxiliarController {
 
