@@ -1,28 +1,28 @@
 package com.treinamento.corridaSquad.entities;
 
+import java.util.Date;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="carro")
-public class Carro {
+@Table(name="corrida")
+public class Corrida {
 	
 	@Id
-	@GeneratedValue()
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name="id")
 	private Integer id;
-	
-	@Column(name="id_equipe")
-	private Integer id_equipe;
 	
 	@Column(name="descricao")
 	private String descricao;
 	
-	@Column(name="placa")
-	private String placa;
+	@Column(name="data_corrida")
+	private Date data;
 
 	public Integer getId() {
 		return id;
@@ -30,14 +30,6 @@ public class Carro {
 
 	public void setId(Integer id) {
 		this.id = id;
-	}
-
-	public Integer getId_equipe() {
-		return id_equipe;
-	}
-
-	public void setId_equipe(Integer id_equipe) {
-		this.id_equipe = id_equipe;
 	}
 
 	public String getDescricao() {
@@ -48,14 +40,13 @@ public class Carro {
 		this.descricao = descricao;
 	}
 
-	public String getPlaca() {
-		return placa;
+	public Date getData() {
+		return data;
 	}
 
-	public void setPlaca(String placa) {
-		this.placa = placa;
+	public void setData(Date data) {
+		this.data = data;
 	}
 	
 	
-
 }
