@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.treinamento.corridaSquad.Mensagem;
 import com.treinamento.corridaSquad.biz.CarroCorridaPilotoBiz;
 import com.treinamento.corridaSquad.entities.CarroCorridaPiloto;
+import com.treinamento.corridaSquad.entities.Mecanico;
 import com.treinamento.corridaSquad.repositories.CarroCorridaPilotoRepository;
 import com.treinamento.corridaSquad.repositories.CarroRepository;
 import com.treinamento.corridaSquad.repositories.CorridaRepository;
@@ -39,6 +40,12 @@ public class CarroCorridaPilotoController {
     {
         List<CarroCorridaPiloto> lista = carroCorridaPilotoRepository.findAll();
         return lista;
+    }
+	
+	@CrossOrigin
+	@GetMapping("/{id}")
+	public CarroCorridaPiloto consultar(@PathVariable Integer id) {
+    	return carroCorridaPilotoRepository.findById(id).get();
     }
 	
 	@PostMapping("incluir")
