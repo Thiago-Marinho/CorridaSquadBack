@@ -64,11 +64,10 @@ public class CarroCorridaPilotoController {
         return carroCorridaPilotoBiz.getMensagem();
     }
 	
-	@PutMapping("alterar/{id}")
-	public Mensagem alterar(@PathVariable Integer id, @RequestBody @Validated CarroCorridaPiloto carroCorridaPiloto) {
+	@PutMapping("alterar")
+	public Mensagem alterar(@RequestBody @Validated CarroCorridaPiloto carroCorridaPiloto) {
 		CarroCorridaPilotoBiz carroCorridaPilotoBiz = new CarroCorridaPilotoBiz(corridaRepository, carroRepository,
 				pilotoRepository);
-		carroCorridaPiloto.setId(id);
 		try {
 			if (carroCorridaPilotoBiz.validar(carroCorridaPiloto)) {
 				carroCorridaPilotoRepository.save(carroCorridaPiloto);

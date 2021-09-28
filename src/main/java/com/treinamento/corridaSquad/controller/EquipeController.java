@@ -53,11 +53,10 @@ public class EquipeController {
 		return equipeBiz.getMensagem();
 	}
 	
-	@PutMapping(path="alterar/{id}")
-    public Mensagem alterarEquipe(@PathVariable Integer id, @RequestBody @Validated Equipe equipe) {
+	@PutMapping(path="alterar")
+    public Mensagem alterarEquipe(@RequestBody @Validated Equipe equipe) {
         
     	EquipeBiz equipeBiz = new EquipeBiz();
-    	equipe.setId(id);
         try{
             if(equipeBiz.validar(equipe)) {
             	equipeRepository.save(equipe);
