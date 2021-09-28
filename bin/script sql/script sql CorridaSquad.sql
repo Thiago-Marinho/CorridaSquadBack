@@ -28,7 +28,6 @@ GO
 CREATE TABLE corrida (
 	id int NOT NULL PRIMARY KEY IDENTITY(1,1),
 	descricao varchar(255) NOT NULL,
-	data_corrida datetime NOT NULL
 )
 GO
 
@@ -47,12 +46,12 @@ CREATE TABLE mecanico (
 )
 GO
 
+
 CREATE TABLE servicos (
 	id int NOT NULL PRIMARY KEY IDENTITY(1,1),
 	id_mecanico int NOT NULL REFERENCES mecanico(id),
 	id_carro int NOT NULL REFERENCES carro(id),
 	descricao varchar(255) NOT NULL,
-	data_servico datetime NOT NULL
 )
 GO
 
