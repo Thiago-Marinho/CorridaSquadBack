@@ -3,13 +3,7 @@ package com.treinamento.corridaSquad.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.treinamento.corridaSquad.Mensagem;
 import com.treinamento.corridaSquad.biz.AuxiliarBiz;
@@ -32,6 +26,11 @@ public class PilotoController {
 	public List<Piloto> listarPiloto() {
 		List<Piloto> lista = pilotoRepositorio.findAll();
 		return lista;
+	}
+
+	@GetMapping("/{id}")
+	public Piloto getOne(@PathVariable int id){
+		return pilotoRepositorio.findById(id).get();
 	}
 
 	@PostMapping("incluir")
