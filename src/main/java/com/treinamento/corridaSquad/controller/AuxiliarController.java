@@ -2,14 +2,9 @@ package com.treinamento.corridaSquad.controller;
 
 import java.util.List;
 
+import com.treinamento.corridaSquad.entities.Servico;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.treinamento.corridaSquad.Mensagem;
 import com.treinamento.corridaSquad.biz.AuxiliarBiz;
@@ -53,6 +48,12 @@ public class AuxiliarController {
 		}
 
 		return validador.getMensagem();
+	}
+
+	@CrossOrigin
+	@GetMapping("/{id}")
+	public Auxiliar consultar(@PathVariable int id) {
+		return this.auxiliarRepositorio.findById(id).get();
 	}
 
 	@PutMapping("alterar")
