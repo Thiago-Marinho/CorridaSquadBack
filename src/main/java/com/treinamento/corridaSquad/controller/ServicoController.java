@@ -51,6 +51,13 @@ public class ServicoController {
         }
         return mensagem.mensagem;
     }
+
+    @CrossOrigin
+    @GetMapping("/{id}")
+    public Servico consultar(@PathVariable int id) {
+        return this.servicoRepositorio.findById(id).get();
+    }
+
     @CrossOrigin
     @PutMapping("alterar")
     public List<String> alterar(@Valid @RequestBody Servico novoServico){
