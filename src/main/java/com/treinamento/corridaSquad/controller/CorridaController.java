@@ -32,10 +32,12 @@ public class CorridaController {
 		return lista;
 	}
 	
+	@CrossOrigin
 	@GetMapping("/{id}")
-    public Corrida consultar(@PathVariable int id) {
+    public Corrida consultar(@PathVariable Integer id) {
         return corridaRepository.findById(id).get();
     }
+	
 	
 	@PostMapping("incluir")
 	public Mensagem incluirCorrida(@Validated @RequestBody Corrida corrida) {
