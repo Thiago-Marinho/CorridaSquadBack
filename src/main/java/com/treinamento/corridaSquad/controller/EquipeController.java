@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.treinamento.corridaSquad.Mensagem;
 import com.treinamento.corridaSquad.biz.EquipeBiz;
+import com.treinamento.corridaSquad.entities.Carro;
 import com.treinamento.corridaSquad.entities.Equipe;
 import com.treinamento.corridaSquad.repositories.EquipeRepository;
 
@@ -29,6 +30,13 @@ public class EquipeController {
 	public List<Equipe> listarEquipe(){
 		return equipeRepository.findAll();
 	}	
+	
+	@CrossOrigin
+	@GetMapping("/{id}")
+	public Equipe consultar(@PathVariable Integer id) {
+    	return equipeRepository.findById(id).get();
+    }
+    
 	
 	@PostMapping("incluir")
 	public Mensagem incluirEquipe(@Validated @RequestBody Equipe equipe) {
