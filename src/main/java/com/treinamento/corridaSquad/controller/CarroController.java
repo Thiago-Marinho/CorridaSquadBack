@@ -25,6 +25,14 @@ public class CarroController {
         return carroRepositorio.findAll();
     }
 
+    
+    @CrossOrigin
+    @GetMapping("/{id}")
+    public Carro consultar(@PathVariable Integer id) {
+    	return carroRepositorio.findById(id).get();
+    }
+    
+    
     @CrossOrigin
     @PostMapping("incluir")
     public List<String> incluir(@Valid @RequestBody Carro novoCarro){
