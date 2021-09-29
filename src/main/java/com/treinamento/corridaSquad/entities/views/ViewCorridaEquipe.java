@@ -8,7 +8,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table (name = "View_corrida_equipe")
-public class View_corrida_equipe {
+public class ViewCorridaEquipe {
 
 	@Id
 	@Column(name= "id")
@@ -20,9 +20,9 @@ public class View_corrida_equipe {
 	@Column(name= "carro")
 	private String carro;
 	
-	public View_corrida_equipe() {}
+	public ViewCorridaEquipe() {}
 	
-	public View_corrida_equipe(Integer id, String corrida, String equipe, String carro) {
+	public ViewCorridaEquipe(Integer id, String corrida, String equipe, String carro) {
 		this.id = id;
 		this.corrida = corrida;
 		this.equipe = equipe;

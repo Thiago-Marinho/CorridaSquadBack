@@ -8,20 +8,20 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.treinamento.corridaSquad.entities.views.View_corrida_equipe;
-import com.treinamento.corridaSquad.repositories.View_corrida_equipeRepository;
+import com.treinamento.corridaSquad.entities.views.ViewCorridaEquipe;
+import com.treinamento.corridaSquad.repositories.ViewCorridaEquipeRepository;
 
 @RequestMapping("ViewCorridaEquipe")
 @RestController
 @CrossOrigin
-public class View_corrida_equipeController {
+public class ViewCorridaEquipeController {
 
 	@Autowired
-	private View_corrida_equipeRepository view_corrida_equipeRepositorio;
+	private ViewCorridaEquipeRepository view_corrida_equipeRepositorio;
 	
 	@GetMapping("listar")
-	public List<View_corrida_equipe> listar(){
-		List<View_corrida_equipe> lista = view_corrida_equipeRepositorio.findAll();
+	public List<ViewCorridaEquipe> listar(){
+		List<ViewCorridaEquipe> lista = view_corrida_equipeRepositorio.findAll();
 		return lista;
 	}
 }
