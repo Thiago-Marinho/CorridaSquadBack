@@ -21,9 +21,6 @@ public class Auxiliar {
 	
 	@Column(name="id_mecanico")
 	private Integer id_mecanico;
-	
-	@Column(name="id_equipe")
-	private Integer id_equipe;
 
 	public Integer getId() {
 		return id;
@@ -48,15 +45,5 @@ public class Auxiliar {
 	public void setId_mecanico(Integer id_mecanico) {
 		this.id_mecanico = id_mecanico;
 	}
-
-	public Integer getId_equipe() {
-		return id_equipe;
-	}
-
-	public void setId_equipe(Integer id_equipe) {
-		this.id_equipe = id_equipe;
-	}
-	
-	
 
 }

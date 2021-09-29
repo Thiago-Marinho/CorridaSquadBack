@@ -21,13 +21,6 @@ public class ServicoBiz {
             this.mensagens.mensagem.add("A descrição inserida não deve possuir mais que 255 caracteres");
             valido=false;
         }
-        if(servico.getId_mecanico()==null){
-            this.mensagens.mensagem.add("O Id do mecanico inserido não deve ser nulo");
-            valido=false;
-        }else if(mecanicoRepositorio.findById(servico.getId_mecanico()).isEmpty()){
-            this.mensagens.mensagem.add("Nenhum mecanico foi encontrado com o Id informado");
-            valido=false;
-        }
         if(servico.getId_carro()==null){
             this.mensagens.mensagem.add("O Id do carro inserido não deve ser nulo");
             valido=false;

@@ -29,9 +29,6 @@ public class AuxiliarBiz {
 		} else if (auxiliar.getNome().length() > 255) {
 			getMensagem().mensagem.add("O nome não pode conter mais que 255 caracteres!");
 			valido = false;
-		} else if (equipeRepository.findById(auxiliar.getId_equipe()).isEmpty()) {
-			getMensagem().mensagem.add("A equipe não existe!");
-			valido = false;
 		} else if (mecanicoRepository.findById(auxiliar.getId_mecanico()).isEmpty()) {
 			getMensagem().mensagem.add("O Mecanico não existe!");
 			valido = false;

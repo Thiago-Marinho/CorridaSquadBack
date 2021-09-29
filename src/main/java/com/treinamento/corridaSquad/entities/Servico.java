@@ -8,17 +8,14 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="servicos")
+@Table(name="servico")
 public class Servico {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name="id")
 	private Integer id;
-	
-	@Column(name="id_mecanico")
-	private Integer id_mecanico;
-	
+
 	@Column(name="id_carro")
 	private Integer id_carro;
 	
@@ -31,14 +28,6 @@ public class Servico {
 
 	public void setId(Integer id) {
 		this.id = id;
-	}
-
-	public Integer getId_mecanico() {
-		return id_mecanico;
-	}
-
-	public void setId_mecanico(Integer id_mecanico) {
-		this.id_mecanico = id_mecanico;
 	}
 
 	public Integer getId_carro() {

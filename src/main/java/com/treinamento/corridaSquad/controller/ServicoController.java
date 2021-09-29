@@ -70,7 +70,6 @@ public class ServicoController {
                     Servico oldServico = servicoSearch.get();
                     oldServico.setDescricao(novoServico.getDescricao());
                     oldServico.setId_carro(novoServico.getId_carro());
-                    oldServico.setId_mecanico(novoServico.getId_mecanico());
                     servicoRepositorio.save(oldServico);
                     servicoRepositorio.flush();
                     mensagem.mensagem.add("Sucesso ao atualizar o servico com o Id ("+oldServico.getId()+") !");
