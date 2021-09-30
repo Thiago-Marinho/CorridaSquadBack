@@ -11,10 +11,10 @@ INSERT INTO carro_corrida_piloto(id_carro, id_corrida, id_piloto)VALUES(1, 1, 1)
 GO
 INSERT INTO mecanico(nome,id_equipe)VALUES('Lucas Sobrinho', 1)
 GO
-INSERT INTO servicos(id_carro, id_mecanico, descricao)VALUES(1, 1, 'Trocar Pneu')
-INSERT INTO servicos(id_carro, id_mecanico, descricao)VALUES(1, 1, 'Abastecer')
+INSERT INTO servico(id_carro, descricao)VALUES(1, 'Trocar Pneu')
+INSERT INTO servico(id_carro, descricao)VALUES(1, 'Abastecer')
 GO
-INSERT INTO auxiliar(id_equipe, id_mecanico, nome)VALUES(1, 1, 'Thiago')
+INSERT INTO auxiliar(id_mecanico, nome)VALUES(1, 'Thiago')
 GO
 
 SELECT * FROM equipe
@@ -23,7 +23,7 @@ SELECT * FROM carro
 SELECT * FROM corrida
 SELECT * FROM carro_corrida_piloto
 SELECT * FROM mecanico
-SELECT * FROM servicos
+SELECT * FROM servico
 SELECT * FROM auxiliar
 
 
