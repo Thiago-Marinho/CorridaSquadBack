@@ -81,14 +81,9 @@ public class EquipeTest {
         result = this.equipeBiz.validar(equipe);
         assertThat(result).isEqualTo(expected);
 
-        // esperamos receber falso!
-        equipe.setNome("Lorem ipsum dolor sit amet, consectetur adipiscing elit. "
-        		+ "Curabitur fermentum nibh egestas ante varius vestibulum. "
-        		+ "Donec ac sapien at sem sodales sollicitudin non viverra justo. "
-        		+ "Donec pretium non nunc id ullamcorper. "
-        		+ "Vivamus tempus, diam vitae tempor consequat, velit arcu viverra sapien, quis egestas ligula massa ut elit. "
-        		+ "Integer molestie non.");
+        // esperamos receber verdadeiro!
+        equipe.setNome("Marcus Rolim");
         result = this.equipeBiz.validar(equipe);
-        assertThat(result).isEqualTo(expected);
+        assertThat(result).isNotEqualTo(expected);
     }
 }
