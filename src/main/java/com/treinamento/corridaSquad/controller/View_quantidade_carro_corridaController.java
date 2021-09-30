@@ -23,4 +23,9 @@ public class View_quantidade_carro_corridaController {
 	public List<View_quantidade_carro_corrida> listar(){
 		return quantidade_carro_corridaRepository.findAll();
 	}
+
+	public int count() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
 }
