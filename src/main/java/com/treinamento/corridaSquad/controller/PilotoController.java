@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import com.treinamento.corridaSquad.Mensagem;
-import com.treinamento.corridaSquad.biz.AuxiliarBiz;
 import com.treinamento.corridaSquad.biz.PilotoBiz;
 import com.treinamento.corridaSquad.entities.Piloto;
 import com.treinamento.corridaSquad.repositories.EquipeRepository;

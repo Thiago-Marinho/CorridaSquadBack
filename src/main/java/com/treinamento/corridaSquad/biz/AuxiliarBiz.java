@@ -2,19 +2,15 @@ package com.treinamento.corridaSquad.biz;
 
 import com.treinamento.corridaSquad.Mensagem;
 import com.treinamento.corridaSquad.entities.Auxiliar;
-import com.treinamento.corridaSquad.repositories.AuxiliarRepository;
-import com.treinamento.corridaSquad.repositories.EquipeRepository;
 import com.treinamento.corridaSquad.repositories.MecanicoRepository;
 
 public class AuxiliarBiz {
 
 	private Mensagem mensagem;
 
-	private EquipeRepository equipeRepository;
 	private MecanicoRepository mecanicoRepository;
 
-	public AuxiliarBiz(AuxiliarRepository pilotoRepository, EquipeRepository equipeRepository, MecanicoRepository mecanicoRepository) {
-		this.equipeRepository = equipeRepository;
+	public AuxiliarBiz(MecanicoRepository mecanicoRepository) {
 		this.mecanicoRepository = mecanicoRepository;
 		this.mensagem = new Mensagem();
 	}
@@ -34,10 +30,8 @@ public class AuxiliarBiz {
 			valido = false;
 		}
 		return valido;
+
 	}
-	
-	
-	
 	
 	public Mensagem getMensagem() {
 		return mensagem;

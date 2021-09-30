@@ -3,12 +3,9 @@ package com.treinamento.corridaSquad.controller;
 import com.treinamento.corridaSquad.Mensagem;
 import com.treinamento.corridaSquad.biz.ServicoBiz;
 import com.treinamento.corridaSquad.entities.Servico;
-import com.treinamento.corridaSquad.entities.Piloto;
-import com.treinamento.corridaSquad.entities.Servico;
 import com.treinamento.corridaSquad.repositories.CarroRepository;
 import com.treinamento.corridaSquad.repositories.ServicoRepository;
 import com.treinamento.corridaSquad.repositories.MecanicoRepository;
-import com.treinamento.corridaSquad.repositories.ServicoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -27,7 +24,7 @@ public class ServicoController {
     MecanicoRepository mecanicoRepository;
     @CrossOrigin
     @GetMapping("listar")
-    public List<Servico> listarPiloto() {
+    public List<Servico> listarServico() {
         List<Servico> lista = servicoRepositorio.findAll();
         return lista;
     }
@@ -35,7 +32,7 @@ public class ServicoController {
     @PostMapping("incluir")
     public List<String> incluir(@Valid @RequestBody Servico novoServico){
         Mensagem mensagem = new Mensagem();
-        ServicoBiz validadorServico = new ServicoBiz(mecanicoRepository, carroRepositorio);
+        ServicoBiz validadorServico = new ServicoBiz(carroRepositorio);
         if(validadorServico.validarServico(novoServico)){
             try{
                 servicoRepositorio.save(novoServico);
@@ -62,7 +59,7 @@ public class ServicoController {
     @PutMapping("alterar")
     public List<String> alterar(@Valid @RequestBody Servico novoServico){
         Mensagem mensagem = new Mensagem();
-        ServicoBiz validadorServico = new ServicoBiz(mecanicoRepository, carroRepositorio);
+        ServicoBiz validadorServico = new ServicoBiz(carroRepositorio);
         if(validadorServico.validarServico(novoServico)){
             try{
                 Optional<Servico> servicoSearch = servicoRepositorio.findById(novoServico.getId());

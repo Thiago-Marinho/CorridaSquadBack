@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.treinamento.corridaSquad.Mensagem;
 import com.treinamento.corridaSquad.biz.CarroCorridaPilotoBiz;
 import com.treinamento.corridaSquad.entities.CarroCorridaPiloto;
-import com.treinamento.corridaSquad.entities.Mecanico;
 import com.treinamento.corridaSquad.repositories.CarroCorridaPilotoRepository;
 import com.treinamento.corridaSquad.repositories.CarroRepository;
 import com.treinamento.corridaSquad.repositories.CorridaRepository;

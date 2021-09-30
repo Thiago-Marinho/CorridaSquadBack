@@ -2,16 +2,13 @@ package com.treinamento.corridaSquad.controller;
 
 import java.util.List;
 
-import com.treinamento.corridaSquad.entities.Servico;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import com.treinamento.corridaSquad.Mensagem;
 import com.treinamento.corridaSquad.biz.AuxiliarBiz;
-import com.treinamento.corridaSquad.biz.MecanicoBiz;
 import com.treinamento.corridaSquad.entities.Auxiliar;
 import com.treinamento.corridaSquad.repositories.AuxiliarRepository;
-import com.treinamento.corridaSquad.repositories.EquipeRepository;
 import com.treinamento.corridaSquad.repositories.MecanicoRepository;
 
 @RestController
@@ -21,8 +18,6 @@ public class AuxiliarController {
 
 	@Autowired
 	private AuxiliarRepository auxiliarRepositorio;
-	@Autowired
-	private EquipeRepository equipeRepositorio;
 	@Autowired
 	private MecanicoRepository mecanicoRepositorio;
 		
@@ -35,7 +30,7 @@ public class AuxiliarController {
 	@PostMapping("incluir")
 	public Mensagem incluir(@RequestBody Auxiliar novoAuxiliar) {
 
-		AuxiliarBiz validador = new AuxiliarBiz(auxiliarRepositorio, equipeRepositorio, mecanicoRepositorio);
+		AuxiliarBiz validador = new AuxiliarBiz(mecanicoRepositorio);
 
 		try {
 			if (validador.validar(novoAuxiliar)) {
@@ -59,7 +54,7 @@ public class AuxiliarController {
 	@PutMapping("alterar")
 	public Mensagem alterarAuxiliar(@RequestBody Auxiliar auxiliar) {
 
-		AuxiliarBiz validador = new AuxiliarBiz(auxiliarRepositorio, equipeRepositorio, mecanicoRepositorio);
+		AuxiliarBiz validador = new AuxiliarBiz(mecanicoRepositorio);
 		try {
 			if (validador.validar(auxiliar)) {
 			auxiliarRepositorio.save(auxiliar);

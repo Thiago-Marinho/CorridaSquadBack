@@ -2,16 +2,17 @@ package com.treinamento.corridaSquad.biz;
 import com.treinamento.corridaSquad.Mensagem;
 import com.treinamento.corridaSquad.entities.Servico;
 import com.treinamento.corridaSquad.repositories.CarroRepository;
-import com.treinamento.corridaSquad.repositories.MecanicoRepository;
 
 public class ServicoBiz {
+
     private Mensagem mensagens = new Mensagem();
-    private MecanicoRepository mecanicoRepositorio;
+
     private CarroRepository carroRepositorio;
-    public ServicoBiz(MecanicoRepository mecanicoRepo, CarroRepository carroRepo){
-        this.mecanicoRepositorio = mecanicoRepo;
+    
+    public ServicoBiz(CarroRepository carroRepo){
         this.carroRepositorio = carroRepo;
     }
+
     public boolean validarServico(Servico servico){
         boolean valido = true;
         if(servico.getDescricao().isBlank()){

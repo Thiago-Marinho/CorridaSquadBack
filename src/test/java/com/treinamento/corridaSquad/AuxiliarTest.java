@@ -1,13 +1,13 @@
 package com.treinamento.corridaSquad;
 
-
+import com.treinamento.corridaSquad.biz.AuxiliarBiz;
 import com.treinamento.corridaSquad.controller.AuxiliarController;
 import com.treinamento.corridaSquad.entities.Auxiliar;
 import com.treinamento.corridaSquad.repositories.AuxiliarRepository;
+import com.treinamento.corridaSquad.repositories.MecanicoRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -17,12 +17,15 @@ public class AuxiliarTest {
 
     @Autowired
     AuxiliarRepository auxiliarRepository;
-
     @Autowired
     AuxiliarController auxiliarController;
+    @Autowired
+    MecanicoRepository mecanicoRepository;
+
+    AuxiliarBiz auxiliarBiz = new AuxiliarBiz(mecanicoRepository);
 
     @Test
-    public void AuxiliarControllerListarTest() {
+    public void auxiliarControllerListarTest() {
         Integer expected = 0;
         expected = (int) this.auxiliarRepository.count();
         Integer result = this.auxiliarController.listarAuxiliar().size();
@@ -30,7 +33,7 @@ public class AuxiliarTest {
     }
 
     @Test
-    public void AuxiliarControllerConsultarTest() {
+    public void auxiliarControllerConsultarTest() {
         List<Auxiliar> ListAuxiliar = this.auxiliarRepository.findAll();
         Auxiliar expectedObject = ListAuxiliar.get(1);
         Auxiliar resultObject = this.auxiliarController.consultar(expectedObject.getId());
@@ -40,7 +43,7 @@ public class AuxiliarTest {
     }
 
     @Test
-    public void AuxiliarControllerInserirTest() {
+    public void auxiliarControllerInserirTest() {
         Integer expected = (int) this.auxiliarRepository.count()+1;
         Auxiliar novoAuxiliar = new Auxiliar();
         novoAuxiliar.setNome("Carlos");
@@ -51,7 +54,7 @@ public class AuxiliarTest {
     }
 
     @Test
-    public void AuxiliarControllerAlterarTest() {
+    public void auxiliarControllerAlterarTest() {
 
         List<Auxiliar> ListAuxiliar = this.auxiliarRepository.findAll();
         Auxiliar auxiliarAntigo = ListAuxiliar.get(1);
@@ -67,6 +70,40 @@ public class AuxiliarTest {
 
         String resultName = auxiliarAntigo.getNome();
         assertThat(expectedName).isEqualTo(resultName);
+    }
+
+    @Test
+    public void auxiliarBizValidarTest() {
+        Boolean result = true;
+        Boolean expected = false;
+
+        Auxiliar auxiliar = new Auxiliar();
+       
+        // esperamos receber falso!
+        auxiliar.setId_mecanico(10000);
+        auxiliar.setNome("");
+        result = this.auxiliarBiz.validar(auxiliar);
+        assertThat(result).isEqualTo(expected);
+
+        // esperamos receber falso!
+        auxiliar.setId_mecanico(1);
+        auxiliar.setNome("");
+        result = this.auxiliarBiz.validar(auxiliar);
+        assertThat(result).isEqualTo(expected);
+
+        // esperamos receber falso!
+        auxiliar.setId_mecanico(10000);
+        auxiliar.setNome("Carlos");
+        result = this.auxiliarBiz.validar(auxiliar);
+        assertThat(result).isEqualTo(expected);
+
+        //esperamos receber trues!
+        expected = true;
+        auxiliar.setId_mecanico(1);
+        auxiliar.setNome("Carlos");
+        result = this.auxiliarBiz.validar(auxiliar);
+        assertThat(result).isEqualTo(expected);
+
     }
 
 }
