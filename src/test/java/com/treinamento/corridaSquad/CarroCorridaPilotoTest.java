@@ -7,9 +7,14 @@ import java.util.List;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+
+import com.treinamento.corridaSquad.biz.CarroCorridaPilotoBiz;
 import com.treinamento.corridaSquad.controller.CarroCorridaPilotoController;
 import com.treinamento.corridaSquad.entities.CarroCorridaPiloto;
 import com.treinamento.corridaSquad.repositories.CarroCorridaPilotoRepository;
+import com.treinamento.corridaSquad.repositories.CarroRepository;
+import com.treinamento.corridaSquad.repositories.CorridaRepository;
+import com.treinamento.corridaSquad.repositories.PilotoRepository;
 
 @SpringBootTest
 public class CarroCorridaPilotoTest {
@@ -17,8 +22,19 @@ public class CarroCorridaPilotoTest {
 	@Autowired
 	CarroCorridaPilotoRepository carroCorridaPilotoRepository;
 	
+	@Autowired
+	CorridaRepository corridaRepository;
+	
+	@Autowired
+	CarroRepository carroRepository;
+	
+	@Autowired
+	PilotoRepository pilotoRepository;
+	
 	@Autowired 
 	CarroCorridaPilotoController carroCorridaPilotoController;
+	
+	CarroCorridaPilotoBiz carroCorridaPilotoBiz = new CarroCorridaPilotoBiz(corridaRepository, carroRepository, pilotoRepository);
 	
     @Test
     public void CarroCorridaPilotoControllerListarTest() {
@@ -75,5 +91,32 @@ public class CarroCorridaPilotoTest {
         assertThat(expectedIdCarro).isNotEqualTo(resultIdCarro);
         assertThat(expectedIdCorrida).isNotEqualTo(resultIdCorrida);
         assertThat(expectedIdPiloto).isNotEqualTo(resultIdPiloto);
+    }
+    
+    @Test
+    public void carroCorridaPilotoBizValidarTest() {
+        Boolean result = true;
+        Boolean expected = false;
+
+        CarroCorridaPiloto carroCorridaPiloto = new CarroCorridaPiloto();
+       
+        // esperamos receber falso!
+        carroCorridaPiloto.setId_carro(50);
+                
+        result = this.carroCorridaPilotoBiz.validar(carroCorridaPiloto);
+        assertThat(result).isEqualTo(expected);
+        
+        // esperamos receber falso!
+        carroCorridaPiloto.setId_corrida(60);
+                
+        result = this.carroCorridaPilotoBiz.validar(carroCorridaPiloto);
+        assertThat(result).isEqualTo(expected);
+        
+        // esperamos receber falso!
+        carroCorridaPiloto.setId_piloto(70);
+        
+        result = this.carroCorridaPilotoBiz.validar(carroCorridaPiloto);
+        assertThat(result).isEqualTo(expected);
+
     }
 }
