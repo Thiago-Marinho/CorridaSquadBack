@@ -8,6 +8,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import com.treinamento.corridaSquad.biz.EquipeBiz;
 import com.treinamento.corridaSquad.controller.EquipeController;
 import com.treinamento.corridaSquad.entities.Equipe;
 import com.treinamento.corridaSquad.repositories.EquipeRepository;
@@ -20,6 +21,8 @@ public class EquipeTest {
 	
 	@Autowired 
 	EquipeController equipeController;
+	
+	EquipeBiz equipeBiz = new EquipeBiz();
 	
     @Test
     public void EquipeControllerListarTest() {
@@ -64,5 +67,28 @@ public class EquipeTest {
 
         String result = equipe.getNome();
         assertThat(expected).isNotEqualTo(result);
+    }
+    
+    @Test
+    public void equipeBizValidarTest() {
+        Boolean result = true;
+        Boolean expected = false;
+
+        Equipe equipe = new Equipe();
+       
+        // esperamos receber falso!
+        equipe.setNome("");
+        result = this.equipeBiz.validar(equipe);
+        assertThat(result).isEqualTo(expected);
+
+        // esperamos receber falso!
+        equipe.setNome("Lorem ipsum dolor sit amet, consectetur adipiscing elit. "
+        		+ "Curabitur fermentum nibh egestas ante varius vestibulum. "
+        		+ "Donec ac sapien at sem sodales sollicitudin non viverra justo. "
+        		+ "Donec pretium non nunc id ullamcorper. "
+        		+ "Vivamus tempus, diam vitae tempor consequat, velit arcu viverra sapien, quis egestas ligula massa ut elit. "
+        		+ "Integer molestie non.");
+        result = this.equipeBiz.validar(equipe);
+        assertThat(result).isEqualTo(expected);
     }
 }
