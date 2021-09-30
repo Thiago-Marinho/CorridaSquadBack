@@ -19,6 +19,7 @@ public class CarroController {
     private CarroRepository carroRepositorio;
     @Autowired
     private EquipeRepository equipeRepositorio;
+    
     @CrossOrigin
     @GetMapping("listar")
     public List<Carro> listar(){
@@ -53,6 +54,7 @@ public class CarroController {
         }
         return mensagem.mensagem;
     }
+    
     @CrossOrigin
     @PutMapping("alterar")
     public List<String> alterar(@Valid @RequestBody Carro novoCarro){

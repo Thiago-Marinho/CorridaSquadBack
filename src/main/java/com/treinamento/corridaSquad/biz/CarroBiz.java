@@ -3,7 +3,7 @@ package com.treinamento.corridaSquad.biz;
 import com.treinamento.corridaSquad.Mensagem;
 import com.treinamento.corridaSquad.entities.Carro;
 import com.treinamento.corridaSquad.repositories.EquipeRepository;
-
+ 
 public class CarroBiz {
     private Mensagem mensagens = new Mensagem();
     private EquipeRepository equipeRepositorio;
