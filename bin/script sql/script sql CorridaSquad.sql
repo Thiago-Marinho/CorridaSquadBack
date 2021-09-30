@@ -47,9 +47,8 @@ CREATE TABLE mecanico (
 GO
 
 
-CREATE TABLE servicos (
+CREATE TABLE servico (
 	id int NOT NULL PRIMARY KEY IDENTITY(1,1),
-	id_mecanico int NOT NULL REFERENCES mecanico(id),
 	id_carro int NOT NULL REFERENCES carro(id),
 	descricao varchar(255) NOT NULL,
 )
@@ -58,7 +57,6 @@ GO
 CREATE TABLE auxiliar (
 	id int NOT NULL PRIMARY KEY IDENTITY(1,1),
 	nome varchar(255) NOT NULL,
-	id_mecanico int NOT NULL REFERENCES mecanico(id),
-	id_equipe int NOT NULL REFERENCES equipe(id)
+	id_mecanico int NOT NULL REFERENCES mecanico(id)
 )
 GO
