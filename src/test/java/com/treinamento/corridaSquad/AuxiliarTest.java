@@ -55,15 +55,15 @@ public class AuxiliarTest {
 
         List<Auxiliar> ListAuxiliar = this.auxiliarRepository.findAll();
         Auxiliar auxiliarAntigo = ListAuxiliar.get(1);
-        String expectedName = "Marcelinho";
+        String expectedName = "Laura";
 
         Auxiliar auxiliarAtualizado = new Auxiliar();
         auxiliarAtualizado.setId(auxiliarAntigo.getId());
-        auxiliarAtualizado.setNome("Marcelinho");
+        auxiliarAtualizado.setNome(expectedName);
         auxiliarAtualizado.setId_mecanico(auxiliarAntigo.getId_mecanico());
 
         this.auxiliarController.alterarAuxiliar(auxiliarAtualizado);
-        auxiliarAntigo = ListAuxiliar.get(1);
+        auxiliarAntigo  = auxiliarController.consultar(auxiliarAntigo.getId());
 
         String resultName = auxiliarAntigo.getNome();
         assertThat(expectedName).isEqualTo(resultName);
