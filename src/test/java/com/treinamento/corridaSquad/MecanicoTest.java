@@ -49,12 +49,14 @@ public class MecanicoTest {
     @Test
     public void mecanicoAlterarTest(){
         Mecanico mecanico = new Mecanico();
+        boolean expected = true;
+        mecanico.setId(getPrimeiroMecanico().getId());
         mecanico.setId_equipe(1);
         mecanico.setNome("TestMecanico");
-        mecanico.setNome("TestMecanico11");
         mecanicoController.alterar(mecanico);
         Mecanico resultMecanico = mecanicoController.consultar(mecanico.getId());
-        assertThat(resultMecanico.getNome()).isEqualTo(mecanico.getNome());
+        boolean result = resultMecanico.getNome().equals(mecanico.getNome());
+        assertThat(result).isEqualTo(expected);
     }
     @Test
     public void mecanicoBizTest(){
