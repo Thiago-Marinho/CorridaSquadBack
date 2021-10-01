@@ -25,7 +25,7 @@ public class PilotoBiz {
 		} else if (piloto.getNome().length() > 255) {
 			getMensagem().mensagem.add("O nome não pode conter mais que 255 caracteres!");
 			valido = false;
-		} else if (equipeRepository.findById(piloto.getId_equipe()).isEmpty()) {
+		} else if (this.equipeRepository.findById(piloto.getId_equipe()).isEmpty()) {
 			getMensagem().mensagem.add("A equipe não existe!");
 			valido = false;
 		}

@@ -28,7 +28,7 @@ public class PilotoTest {
 	@Autowired
 	PilotoController controller;
 
-	PilotoBiz pilotoBiz = new PilotoBiz(pilotoRepository ,equipeRepository);
+	
 	@Test
 	public void PilotoRepositoryTest() {
 
@@ -91,22 +91,21 @@ public class PilotoTest {
     }
 	@Test
 	public void PilotoBizValidarTest() {
+		PilotoBiz pilotoBiz = new PilotoBiz(pilotoRepository ,equipeRepository);
+		
         Boolean result = false;
         Boolean expected = true;
 
         Piloto piloto = new Piloto();
        
         
-        piloto.setId_equipe(1);
-                
-        result = this.pilotoBiz.validar(piloto);
+        piloto.setId_equipe(2);
+        piloto.setNome("Vetel"); 
+        
+        result = pilotoBiz.validar(piloto);
+        
+        System.out.println(result);
         assertThat(expected).isEqualTo(result);
-        
-        
-        piloto.setNome("Vetel VV");
-                
-        result = this.pilotoBiz.validar(piloto);
-        assertThat(expected).isEqualTo(result);                 
-
+                                                     
     }
 }
