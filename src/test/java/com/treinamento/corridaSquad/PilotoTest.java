@@ -89,7 +89,7 @@ public class PilotoTest {
         Piloto result = controller.getOne(piloto.getId());
         assertThat(result.getNome()).isEqualTo(piloto.getNome());
     }
-	
+	@Test
 	public void PilotoBizValidarTest() {
         Boolean result = false;
         Boolean expected = true;
