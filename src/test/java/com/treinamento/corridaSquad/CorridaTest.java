@@ -87,7 +87,6 @@ public class CorridaTest {
 		}//Esperando por teste=true
 
 		//Inicio de testes com 'corrida' inválida
-		expected = false;
 		corrida.setDescricao(" ");
 		teste=corridaBiz.validar(corrida);
 		if(teste){

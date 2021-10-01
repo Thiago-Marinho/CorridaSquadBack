@@ -41,8 +41,7 @@ public class MecanicoTest {
     @Test
     public void mecanicoConsultarTest(){
         boolean expected =true;
-        List<Mecanico> listaMecanicos = mecanicoController.listar();
-        Mecanico mecanicoExpected = (Mecanico) listaMecanicos.get(getPrimeiroMecanico().getId());
+        Mecanico mecanicoExpected = getPrimeiroMecanico();
         Mecanico mecanicoResult = (Mecanico) mecanicoController.consultar(mecanicoExpected.getId());
         boolean result = mecanicoResult.equals(mecanicoExpected);
         assertThat(mecanicoResult.getId()).isEqualTo(mecanicoExpected.getId());
