@@ -3,11 +3,16 @@ package com.treinamento.corridaSquad;
 import com.treinamento.corridaSquad.biz.AuxiliarBiz;
 import com.treinamento.corridaSquad.controller.AuxiliarController;
 import com.treinamento.corridaSquad.entities.Auxiliar;
+import com.treinamento.corridaSquad.entities.CarroCorridaPiloto;
 import com.treinamento.corridaSquad.repositories.AuxiliarRepository;
 import com.treinamento.corridaSquad.repositories.MecanicoRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
+
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -32,12 +37,9 @@ public class AuxiliarTest {
 
     @Test
     public void auxiliarControllerConsultarTest() {
-        List<Auxiliar> ListAuxiliar = this.auxiliarRepository.findAll();
-        Auxiliar expectedObject = ListAuxiliar.get(1);
-        Auxiliar resultObject = this.auxiliarController.consultar(expectedObject.getId());
-        assertThat(expectedObject.getId()).isEqualTo(resultObject.getId());
-        assertThat(expectedObject.getNome()).isEqualTo(resultObject.getNome());
-        assertThat(expectedObject.getId_mecanico()).isEqualTo(resultObject.getId_mecanico());
+        Auxiliar expected= this.obterPrimeiroRegistro();
+        Auxiliar result = this.auxiliarController.consultar(expected.getId());
+        assertThat(expected.getId()).isEqualTo(result.getId());
     }
 
     @Test
@@ -53,21 +55,27 @@ public class AuxiliarTest {
 
     @Test
     public void auxiliarControllerAlterarTest() {
+        Boolean expected = true;
+        Boolean result = false;
 
-        List<Auxiliar> ListAuxiliar = this.auxiliarRepository.findAll();
-        Auxiliar auxiliarAntigo = ListAuxiliar.get(1);
-        String expectedName = "Laura";
+        Auxiliar auxiliarUpdate = this.obterPrimeiroRegistro();
 
-        Auxiliar auxiliarAtualizado = new Auxiliar();
-        auxiliarAtualizado.setId(auxiliarAntigo.getId());
-        auxiliarAtualizado.setNome(expectedName);
-        auxiliarAtualizado.setId_mecanico(auxiliarAntigo.getId_mecanico());
+        auxiliarUpdate.setNome("Lucas");
+        auxiliarUpdate.setId_mecanico(1);
+        Mensagem msg = this.auxiliarController.alterarAuxiliar(auxiliarUpdate);
 
-        this.auxiliarController.alterarAuxiliar(auxiliarAtualizado);
-        auxiliarAntigo  = auxiliarController.consultar(auxiliarAntigo.getId());
+        if(msg.ContemErro()) {
+            result = false;
+        } else {
+            Auxiliar auxiliar = this.auxiliarController.consultar(auxiliarUpdate.getId());
 
-        String resultName = auxiliarAntigo.getNome();
-        assertThat(expectedName).isEqualTo(resultName);
+            if(auxiliar.getId() == auxiliarUpdate.getId() && auxiliar.getId_mecanico() == auxiliarUpdate.getId_mecanico() && auxiliar.getNome().equals(auxiliarUpdate.getNome())) {
+                result = true;
+            }
+        }
+
+        assertThat(result).isEqualTo(expected);
+
     }
 
     @Test
@@ -81,28 +89,31 @@ public class AuxiliarTest {
         // esperamos receber falso!
         auxiliar.setId_mecanico(10000);
         auxiliar.setNome("");
-        result = auxiliarBiz.validar(auxiliar);
-        assertThat(result).isEqualTo(expected);
+        if(auxiliarBiz.validar(auxiliar)) result = false;
 
         // esperamos receber falso!
         auxiliar.setId_mecanico(1);
         auxiliar.setNome("");
-        result = auxiliarBiz.validar(auxiliar);
-        assertThat(result).isEqualTo(expected);
+        if(auxiliarBiz.validar(auxiliar)) result = false;
 
         // esperamos receber falso!
         auxiliar.setId_mecanico(10000);
         auxiliar.setNome("Carlos");
-        result = auxiliarBiz.validar(auxiliar);
-        assertThat(result).isEqualTo(expected);
+        if(auxiliarBiz.validar(auxiliar)) result = false;
 
-        //esperamos receber trues!
+        //esperamos receber true!
         expected = true;
         auxiliar.setId_mecanico(1);
         auxiliar.setNome("Carlos");
-        result = auxiliarBiz.validar(auxiliar);
-        assertThat(result).isEqualTo(expected);
+        if(auxiliarBiz.validar(auxiliar)) result = true;
 
+        assertThat(result).isEqualTo(expected);
+    }
+
+    public Auxiliar obterPrimeiroRegistro() {
+        Page<Auxiliar> pagina = auxiliarRepository.findAll(
+                PageRequest.of(0, 1, Sort.by(Sort.Direction.DESC, "id")));
+        return pagina.toList().get(0);
     }
 
 }

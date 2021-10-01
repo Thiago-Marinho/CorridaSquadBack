@@ -3,11 +3,16 @@ package com.treinamento.corridaSquad;
 import com.treinamento.corridaSquad.biz.ServicoBiz;
 import com.treinamento.corridaSquad.controller.ServicoController;
 import com.treinamento.corridaSquad.entities.Servico;
+import com.treinamento.corridaSquad.entities.Servico;
 import com.treinamento.corridaSquad.repositories.ServicoRepository;
 import com.treinamento.corridaSquad.repositories.CarroRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
+
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -32,12 +37,9 @@ public class ServicoTest {
 
     @Test
     public void servicoControllerConsultarTest() {
-        List<Servico> ListServico = this.servicoRepository.findAll();
-        Servico expectedObject = ListServico.get(1);
-        Servico resultObject = this.servicoController.consultar(expectedObject.getId());
-        assertThat(expectedObject.getId()).isEqualTo(resultObject.getId());
-        assertThat(expectedObject.getDescricao()).isEqualTo(resultObject.getDescricao());
-        assertThat(expectedObject.getId_carro()).isEqualTo(resultObject.getId_carro());
+        Servico expected = this.obterPrimeiroRegistro();
+        Servico result = this.servicoController.consultar(expected.getId());
+        assertThat(expected.getId()).isEqualTo(result.getId());
     }
 
     @Test
@@ -52,57 +54,70 @@ public class ServicoTest {
     }
 
     @Test
-    public void servicoControllerAlterarTest() {
+    public void ServicoControllerAlterarTest() {
 
-        List<Servico> ListServico = this.servicoRepository.findAll();
-        Servico servicoAntigo = ListServico.get(1);
-        String expectedDescription = "Polimento caprichado Plus";
+        Boolean expected = true;
+        Boolean result = false;
 
-        Servico servicoAtualizado = new Servico();
-        servicoAtualizado.setId(servicoAntigo.getId());
-        servicoAtualizado.setDescricao(expectedDescription);
-        servicoAtualizado.setId_carro(servicoAntigo.getId_carro());
+        Servico servicoUpdate = obterPrimeiroRegistro();
 
-        this.servicoController.alterar(servicoAtualizado);
-        servicoAntigo  = servicoController.consultar(servicoAntigo.getId());
+        servicoUpdate.setId_carro(3);
+        servicoUpdate.setDescricao("troca de pneu top");
+        Mensagem msg = this.servicoController.alterar(servicoUpdate);
 
-        String resultDescription = servicoAntigo.getDescricao();
-        assertThat(expectedDescription).isEqualTo(resultDescription);
+        if (msg.ContemErro()){
+            result = false;
+        } else {
+            Servico servico  =
+                    servicoController.consultar(servicoUpdate.getId());
+
+            if (  servico.getId() == servicoUpdate.getId() &&
+                    servico.getId_carro() == servicoUpdate.getId_carro() &&
+                    servico.getDescricao().equals(servicoUpdate.getDescricao())
+            ) {
+                result = true;
+            }
+        }
+        assertThat(result).isEqualTo(expected);
+
     }
 
     @Test
     public void servicoBizValidarTest() {
         ServicoBiz servicoBiz = new ServicoBiz(carroRepository);
         Boolean result = true;
-        Boolean expected = false;
+        Boolean expected = true;
 
         Servico servico = new Servico();
        
         // esperamos receber falso!
         servico.setId_carro(10000);
         servico.setDescricao("");
-        result = servicoBiz.validarServico(servico);
-        assertThat(result).isEqualTo(expected);
+        if(servicoBiz.validarServico(servico)) result = false;
 
         // esperamos receber falso!
         servico.setId_carro(1);
         servico.setDescricao("");
-        result = servicoBiz.validarServico(servico);
-        assertThat(result).isEqualTo(expected);
+        if(servicoBiz.validarServico(servico)) result = false;
 
         // esperamos receber falso!
         servico.setId_carro(10000);
         servico.setDescricao("Polimento top!");
-        result = servicoBiz.validarServico(servico);
-        assertThat(result).isEqualTo(expected);
+        if(servicoBiz.validarServico(servico)) result = false;
 
         //esperamos receber trues!
-        expected = true;
         servico.setId_carro(1);
         servico.setDescricao("Polimento moderno");
-        result = servicoBiz.validarServico(servico);
+        if(servicoBiz.validarServico(servico)) result = true;
+
         assertThat(result).isEqualTo(expected);
 
+    }
+
+    public Servico obterPrimeiroRegistro() {
+        Page<Servico> pagina = servicoRepository.findAll(
+                PageRequest.of(0, 1, Sort.by(Sort.Direction.DESC, "id")));
+        return pagina.toList().get(0);
     }
 
 }

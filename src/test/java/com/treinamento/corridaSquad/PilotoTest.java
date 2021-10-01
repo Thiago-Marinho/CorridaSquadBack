@@ -102,19 +102,36 @@ public class PilotoTest {
 	public void PilotoBizValidarTest() {
 		PilotoBiz pilotoBiz = new PilotoBiz(pilotoRepository ,equipeRepository);
 		
-        Boolean result = false;
+        Boolean result = true;
         Boolean expected = true;
 
         Piloto piloto = new Piloto();
-       
-        
-        piloto.setId_equipe(2);
-        piloto.setNome("Vetel"); 
-        
-        result = pilotoBiz.validar(piloto);
+        piloto.setId_equipe(1);
+        piloto.setNome("Vetel");
+		boolean teste = pilotoBiz.validar(piloto);
+		if(!teste){
+			result=false;
+		} //Esperando por teste=true;
+
+		piloto.setNome("");
+		teste = pilotoBiz.validar(piloto);
+		if(teste){
+			result=false;
+		} //Esperando por teste=false;
+
+		piloto.setNome("123456789123456789123456789123456789123456789123456789"
+				+"123456789123456789123456789123456789123456789123456789"
+				+"123456789123456789123456789123456789123456789123456789"
+				+"123456789123456789123456789123456789123456789123456789"
+				+"123456789123456789123456789123456789123456789123456789");
+		teste = pilotoBiz.validar(piloto);
+		if(teste){
+			result=false;
+		} //Esperando por teste=false;
+
         
         System.out.println(result);
-        assertThat(expected).isEqualTo(result);
+        assertThat(result).isEqualTo(expected);
                                                      
     }
 	

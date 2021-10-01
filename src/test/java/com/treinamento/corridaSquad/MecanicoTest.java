@@ -9,6 +9,8 @@ import org.junit.jupiter.api.Test;
 import static org.assertj.core.api.Assertions.assertThat;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 
 import java.util.List;
 
@@ -39,48 +41,54 @@ public class MecanicoTest {
     @Test
     public void mecanicoConsultarTest(){
         boolean expected =true;
-        List<Mecanico> listaMecanicos = mecanicoController.listar();
-        Mecanico mecanicoExpected = (Mecanico) listaMecanicos.get(1);
+        Mecanico mecanicoExpected = getPrimeiroMecanico();
         Mecanico mecanicoResult = (Mecanico) mecanicoController.consultar(mecanicoExpected.getId());
-        boolean result = mecanicoResult.equals(mecanicoExpected);
-        assertThat(mecanicoResult.getId()).isEqualTo(mecanicoExpected.getId());
-        assertThat(mecanicoResult.getNome()).isEqualTo(mecanicoExpected.getNome());
-        assertThat(mecanicoResult.getId_equipe()).isEqualTo(mecanicoExpected.getId_equipe());
+        boolean result = mecanicoResult.getId()==mecanicoExpected.getId();
+        assertThat(result).isEqualTo(expected);
     }
     @Test
     public void mecanicoAlterarTest(){
         Mecanico mecanico = new Mecanico();
+        boolean expected = true;
+        mecanico.setId(getPrimeiroMecanico().getId());
         mecanico.setId_equipe(1);
         mecanico.setNome("TestMecanico");
-
-        Integer savedMecanicoId = mecanicoRepository.save(mecanico).getId();
-
-        mecanico.setNome("TestMecanico11");
-
         mecanicoController.alterar(mecanico);
         Mecanico resultMecanico = mecanicoController.consultar(mecanico.getId());
-        assertThat(resultMecanico.getNome()).isEqualTo(mecanico.getNome());
+        boolean result = resultMecanico.getNome().equals(mecanico.getNome());
+        assertThat(result).isEqualTo(expected);
     }
     @Test
     public void mecanicoBizTest(){
+        boolean expected = true;
+        boolean result = true;
+
         MecanicoBiz mecanicoBiz = new MecanicoBiz(mecanicoRepository,equipeRepository);
         int idEquipeValido = equipeRepository.findAll().get(0).getId();
         Mecanico mecanico = new Mecanico();
         mecanico.setNome("TestMecanico");
         mecanico.setId_equipe(idEquipeValido);
-        boolean result = mecanicoBiz.validar(mecanico);
-        boolean expected = true;
-        assertThat(result).isEqualTo(expected); //Esperando result=true
+        boolean test = mecanicoBiz.validar(mecanico);
+        if(!test){
+            result=false;
+        }
 
-        expected=false;
         mecanico.setId_equipe(-1);
-        result = mecanicoBiz.validar(mecanico);
-        assertThat(result).isEqualTo(expected); //Esperando result=false
+        test = mecanicoBiz.validar(mecanico);
+        if(test){
+            result =false;
+        }
 
         mecanico.setId_equipe(idEquipeValido);
         mecanico.setNome("");
-        result = mecanicoBiz.validar(mecanico);
+        test = mecanicoBiz.validar(mecanico);
+        if(test){
+            result =false;
+        }
         assertThat(result).isEqualTo(expected); //Esperando result=false
-        
+    }
+    public Mecanico getPrimeiroMecanico(){
+        return mecanicoRepository.findAll(
+                PageRequest.of(0, 1, Sort.by(Sort.Direction.DESC, "id"))).toList().get(0);
     }
 }

@@ -39,7 +39,7 @@ public class CarroTest {
 		Carro novo = new Carro();
 		novo.setDescricao("Maclaren");
 		novo.setId_equipe( equipeRepository.findById(1).get().getId()  );
-		novo.setNumero("3464");
+		novo.setNumero(1111);
 		carroRepository.save(novo);
 		carroRepository.flush();
 		Integer result = (int) carroRepository.count();
@@ -61,52 +61,70 @@ public class CarroTest {
 		CarroBiz carroBiz = new CarroBiz(equipeRepository);
 		int idEquipeValido = equipeRepository.findAll().get(0).getId();
 		boolean expected = true;
+		boolean result = true;
 		Carro carro = new Carro();
 		carro.setDescricao("TestDrivenCarro");
 		carro.setId_equipe(idEquipeValido);
-		carro.setNumero("ABCD");
-		boolean result = carroBiz.validarCarro(carro);
-		assertThat(result).isEqualTo(expected); //esperando por result=true
+		carro.setNumero(1423);
+		boolean teste = carroBiz.validarCarro(carro);
+		if(!teste){
+			result=false;
+		}//esperando por teste=true
 
 		carro.setDescricao("TestDrivenCarro2");
 		carro.setId_equipe(idEquipeValido);
-		carro.setNumero("DCBA");
-		assertThat(result).isEqualTo(expected); //esperando por result=true
+		carro.setNumero(23423);
+		teste=carroBiz.validarCarro(carro);
+		if(!teste){
+			result=false;
+		}//esperando por teste=true
 
 		//Começo de testes com carros inválidos
-		expected=false;
 		carro.setId_equipe(null);
-		result = carroBiz.validarCarro(carro);
-		assertThat(result).isEqualTo(expected); //esperando por result=false
+		teste = carroBiz.validarCarro(carro);
+		if(teste){
+			result=false;
+		} //esperando por teste=false
 
 
 		carro.setId_equipe(-33);
-		result=carroBiz.validarCarro(carro);
-		assertThat(result).isEqualTo(expected); //esperando por result=false
+		teste=carroBiz.validarCarro(carro);
+		if(teste){
+			result=false;
+		} //esperando por teste=false
 
 
 		carro.setId_equipe(idEquipeValido);
-		carro.setNumero("12345678910");
-		result=carroBiz.validarCarro(carro);
-		assertThat(result).isEqualTo(expected); //esperando por result=false
+		carro.setNumero(0);
+		teste=carroBiz.validarCarro(carro);
+		if(teste){
+			result=false;
+		} //esperando por teste=false
 
 
-		carro.setNumero("");
-		result=carroBiz.validarCarro(carro);
-		assertThat(result).isEqualTo(expected); //esperando por result=false
+		carro.setNumero(0);
+		teste=carroBiz.validarCarro(carro);
+		if(teste){
+			result=false;
+		} //esperando por teste=false
 
-		carro.setNumero("1234");
+		carro.setNumero(234);
 		carro.setDescricao("");
-		result=carroBiz.validarCarro(carro);
-		assertThat(result).isEqualTo(expected); //esperando por result=false
+		teste=carroBiz.validarCarro(carro);
+		if(teste){
+			result=false;
+		} //esperando por teste=false
 
 		carro.setDescricao("123456789123456789123456789123456789123456789123456789"
 						  +"123456789123456789123456789123456789123456789123456789"
 				          +"123456789123456789123456789123456789123456789123456789"
 				          +"123456789123456789123456789123456789123456789123456789"
 				          +"123456789123456789123456789123456789123456789123456789"); //270 caracteres
-		result=carroBiz.validarCarro(carro);
-		assertThat(result).isEqualTo(expected); //esperando por result=false
+		teste=carroBiz.validarCarro(carro);
+		if(teste){
+			result=false;
+		} //esperando por teste=false
+		assertThat(result).isEqualTo(expected);
 
 	}
 	
