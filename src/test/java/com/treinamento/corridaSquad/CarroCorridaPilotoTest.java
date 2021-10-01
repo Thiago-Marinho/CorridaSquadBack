@@ -34,8 +34,6 @@ public class CarroCorridaPilotoTest {
 	@Autowired 
 	CarroCorridaPilotoController carroCorridaPilotoController;
 	
-	CarroCorridaPilotoBiz carroCorridaPilotoBiz = new CarroCorridaPilotoBiz(corridaRepository, carroRepository, pilotoRepository);
-	
     @Test
     public void CarroCorridaPilotoControllerListarTest() {
         Integer expected = 0;
@@ -47,7 +45,7 @@ public class CarroCorridaPilotoTest {
     @Test
     public void CarroCorridaPilotoControllerConsultarTest() {
         List<CarroCorridaPiloto> ListaCarroCorridaPiloto = this.carroCorridaPilotoRepository.findAll();
-        CarroCorridaPiloto expected = ListaCarroCorridaPiloto.get(1);
+        CarroCorridaPiloto expected = ListaCarroCorridaPiloto.get(2);
         CarroCorridaPiloto result = this.carroCorridaPilotoController.consultar(expected.getId());
         assertThat(expected.getId()).isEqualTo(result.getId());
         assertThat(expected.getId_carro()).isEqualTo(result.getId_carro());
@@ -59,9 +57,9 @@ public class CarroCorridaPilotoTest {
     public void CarroCorridaPilotoControllerInserirTest() {
         Integer expected = (int) this.carroCorridaPilotoRepository.count()+1;
         CarroCorridaPiloto novoCarroCorridaPiloto = new CarroCorridaPiloto();
-        novoCarroCorridaPiloto.setId_carro(2);
+        novoCarroCorridaPiloto.setId_carro(1);
         novoCarroCorridaPiloto.setId_corrida(1);
-        novoCarroCorridaPiloto.setId_piloto(3);
+        novoCarroCorridaPiloto.setId_piloto(1);
         this.carroCorridaPilotoController.incluir(novoCarroCorridaPiloto);
         Integer result = this.carroCorridaPilotoController.listarCarroCorridaPiloto().size();
         assertThat(expected).isEqualTo(result);
@@ -71,16 +69,16 @@ public class CarroCorridaPilotoTest {
     public void CarroCorridaPilotoControllerAlterarTest() {
 
         List<CarroCorridaPiloto> ListaCarroCorridaPiloto = this.carroCorridaPilotoRepository.findAll();
-        CarroCorridaPiloto carroCorridaPiloto = ListaCarroCorridaPiloto.get(3);
+        CarroCorridaPiloto carroCorridaPiloto = ListaCarroCorridaPiloto.get(6);
         Integer expectedIdCarro = carroCorridaPiloto.getId_carro();
         Integer expectedIdCorrida = carroCorridaPiloto.getId_corrida();
         Integer expectedIdPiloto= carroCorridaPiloto.getId_piloto();
         
         CarroCorridaPiloto carroCorridaPilotoUpdate = new CarroCorridaPiloto();
         carroCorridaPilotoUpdate.setId(carroCorridaPiloto.getId());
-        carroCorridaPilotoUpdate.setId_carro(2);
-        carroCorridaPilotoUpdate.setId_corrida(3);
-        carroCorridaPilotoUpdate.setId_piloto(2);
+        carroCorridaPilotoUpdate.setId_carro(4);
+        carroCorridaPilotoUpdate.setId_corrida(2);
+        carroCorridaPilotoUpdate.setId_piloto(1);
        
         this.carroCorridaPilotoController.alterar(carroCorridaPilotoUpdate);
         carroCorridaPiloto  = carroCorridaPilotoController.consultar(carroCorridaPiloto.getId());
@@ -88,14 +86,17 @@ public class CarroCorridaPilotoTest {
         Integer resultIdCarro = carroCorridaPiloto.getId_carro();
         Integer resultIdCorrida = carroCorridaPiloto.getId_corrida();
         Integer resultIdPiloto = carroCorridaPiloto.getId_piloto();
-        assertThat(expectedIdCarro).isNotEqualTo(resultIdCarro);
-        assertThat(expectedIdCorrida).isNotEqualTo(resultIdCorrida);
-        assertThat(expectedIdPiloto).isNotEqualTo(resultIdPiloto);
+        assertThat(carroCorridaPilotoUpdate.getId_carro()).isNotEqualTo(resultIdCarro);
+        assertThat(carroCorridaPilotoUpdate.getId_corrida()).isNotEqualTo(resultIdCorrida);
+        assertThat(carroCorridaPilotoUpdate.getId_piloto()).isNotEqualTo(resultIdPiloto);
     }
     
     @Test
     public void carroCorridaPilotoBizValidarTest() {
-        Boolean result = true;
+        
+    	CarroCorridaPilotoBiz carroCorridaPilotoBiz = new CarroCorridaPilotoBiz(corridaRepository, carroRepository, pilotoRepository);
+    	
+    	Boolean result = true;
         Boolean expected = false;
 
         CarroCorridaPiloto carroCorridaPiloto = new CarroCorridaPiloto();
@@ -103,19 +104,19 @@ public class CarroCorridaPilotoTest {
         // esperamos receber falso!
         carroCorridaPiloto.setId_carro(50);
                 
-        result = this.carroCorridaPilotoBiz.validar(carroCorridaPiloto);
+        result = carroCorridaPilotoBiz.validar(carroCorridaPiloto);
         assertThat(result).isEqualTo(expected);
         
-        // esperamos receber falso!
-        carroCorridaPiloto.setId_corrida(60);
+        // esperamos receber verdadeiro!
+        carroCorridaPiloto.setId_corrida(5);
                 
-        result = this.carroCorridaPilotoBiz.validar(carroCorridaPiloto);
+        result = carroCorridaPilotoBiz.validar(carroCorridaPiloto);
         assertThat(result).isEqualTo(expected);
         
         // esperamos receber falso!
         carroCorridaPiloto.setId_piloto(70);
         
-        result = this.carroCorridaPilotoBiz.validar(carroCorridaPiloto);
+        result = carroCorridaPilotoBiz.validar(carroCorridaPiloto);
         assertThat(result).isEqualTo(expected);
 
     }
