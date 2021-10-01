@@ -9,6 +9,8 @@ import org.junit.jupiter.api.Test;
 import static org.assertj.core.api.Assertions.assertThat;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 
 import java.util.List;
 
@@ -40,7 +42,7 @@ public class MecanicoTest {
     public void mecanicoConsultarTest(){
         boolean expected =true;
         List<Mecanico> listaMecanicos = mecanicoController.listar();
-        Mecanico mecanicoExpected = (Mecanico) listaMecanicos.get(1);
+        Mecanico mecanicoExpected = (Mecanico) listaMecanicos.get(getPrimeiroMecanico().getId());
         Mecanico mecanicoResult = (Mecanico) mecanicoController.consultar(mecanicoExpected.getId());
         boolean result = mecanicoResult.equals(mecanicoExpected);
         assertThat(mecanicoResult.getId()).isEqualTo(mecanicoExpected.getId());
@@ -84,5 +86,9 @@ public class MecanicoTest {
             result =false;
         }
         assertThat(result).isEqualTo(expected); //Esperando result=false
+    }
+    public Mecanico getPrimeiroMecanico(){
+        return mecanicoRepository.findAll(
+                PageRequest.of(0, 1, Sort.by(Sort.Direction.DESC, "id"))).toList().get(0);
     }
 }
