@@ -2,6 +2,7 @@ package com.treinamento.corridaSquad.controller;
 
 import com.treinamento.corridaSquad.Mensagem;
 import com.treinamento.corridaSquad.biz.ServicoBiz;
+import com.treinamento.corridaSquad.biz.ServicoBiz;
 import com.treinamento.corridaSquad.entities.Servico;
 import com.treinamento.corridaSquad.repositories.CarroRepository;
 import com.treinamento.corridaSquad.repositories.ServicoRepository;
@@ -57,30 +58,19 @@ public class ServicoController {
 
     @CrossOrigin
     @PutMapping("alterar")
-    public List<String> alterar(@Valid @RequestBody Servico novoServico){
-        Mensagem mensagem = new Mensagem();
-        ServicoBiz validadorServico = new ServicoBiz(carroRepositorio);
-        if(validadorServico.validarServico(novoServico)){
-            try{
-                Optional<Servico> servicoSearch = servicoRepositorio.findById(novoServico.getId());
-                if(servicoSearch.isPresent()){
-                    Servico oldServico = servicoSearch.get();
-                    oldServico.setDescricao(novoServico.getDescricao());
-                    oldServico.setId_carro(novoServico.getId_carro());
-                    servicoRepositorio.save(oldServico);
-                    servicoRepositorio.flush();
-                    mensagem.mensagem.add("Sucesso ao atualizar o servico com o Id ("+oldServico.getId()+") !");
-                }else{
-                    mensagem.mensagem.add("Nem um servico foi encontrado com o Id informado");
-                }
-
-            }catch (Exception err){
-                mensagem.mensagem.add("Erro ao atualizar servico:");
-                mensagem.mensagem.add(err.getMessage());
+    public Mensagem alterar(@Valid @RequestBody Servico novoServico){
+        ServicoBiz servicoBiz = new ServicoBiz(carroRepositorio);
+        try {
+            if (servicoBiz.validarServico(novoServico)) {
+                servicoRepositorio.save(novoServico);
+                servicoRepositorio.flush();
+                servicoBiz.getMensagens().mensagem.add("CorridaCarroPiloto atualizado com sucesso!");
+            } else {
+                servicoBiz.getMensagens().mensagem.add("Erro ao alterar!");
             }
-        }else{
-            mensagem.mensagem.addAll(validadorServico.getMensagens().mensagem);
+        } catch (Exception e) {
+            servicoBiz.getMensagens().mensagem.add("Erro ao alterar: " + e.getMessage());
         }
-        return mensagem.mensagem;
+        return servicoBiz.getMensagens();
     }
 }
