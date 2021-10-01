@@ -57,7 +57,7 @@ public class CorridaController {
 		return corridaBiz.getMsg();
 	}
 		@PutMapping("alterar/{id}")
-	    public String alterarPiloto(@RequestBody @Validated Corrida corrida) {
+	    public String alterarCorrida(@RequestBody @Validated Corrida corrida) {
 	
 	        try {
 	            corridaRepository.save(corrida);
