@@ -22,8 +22,6 @@ public class ServicoTest {
     @Autowired
     CarroRepository carroRepository;
 
-    ServicoBiz servicoBiz = new ServicoBiz(carroRepository);
-
     @Test
     public void servicoControllerListarTest() {
         Integer expected = 0;
@@ -74,6 +72,7 @@ public class ServicoTest {
 
     @Test
     public void servicoBizValidarTest() {
+        ServicoBiz servicoBiz = new ServicoBiz(carroRepository);
         Boolean result = true;
         Boolean expected = false;
 
@@ -82,26 +81,26 @@ public class ServicoTest {
         // esperamos receber falso!
         servico.setId_carro(10000);
         servico.setDescricao("");
-        result = this.servicoBiz.validarServico(servico);
+        result = servicoBiz.validarServico(servico);
         assertThat(result).isEqualTo(expected);
 
         // esperamos receber falso!
         servico.setId_carro(1);
         servico.setDescricao("");
-        result = this.servicoBiz.validarServico(servico);
+        result = servicoBiz.validarServico(servico);
         assertThat(result).isEqualTo(expected);
 
         // esperamos receber falso!
         servico.setId_carro(10000);
         servico.setDescricao("Polimento top!");
-        result = this.servicoBiz.validarServico(servico);
+        result = servicoBiz.validarServico(servico);
         assertThat(result).isEqualTo(expected);
 
         //esperamos receber trues!
         expected = true;
         servico.setId_carro(1);
         servico.setDescricao("Polimento moderno");
-        result = this.servicoBiz.validarServico(servico);
+        result = servicoBiz.validarServico(servico);
         assertThat(result).isEqualTo(expected);
 
     }

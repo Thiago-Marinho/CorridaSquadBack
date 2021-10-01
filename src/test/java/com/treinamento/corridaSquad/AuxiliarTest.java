@@ -22,8 +22,6 @@ public class AuxiliarTest {
     @Autowired
     MecanicoRepository mecanicoRepository;
 
-    AuxiliarBiz auxiliarBiz = new AuxiliarBiz(mecanicoRepository);
-
     @Test
     public void auxiliarControllerListarTest() {
         Integer expected = 0;
@@ -74,6 +72,7 @@ public class AuxiliarTest {
 
     @Test
     public void auxiliarBizValidarTest() {
+        AuxiliarBiz auxiliarBiz = new AuxiliarBiz(mecanicoRepository);
         Boolean result = true;
         Boolean expected = false;
 
@@ -82,26 +81,26 @@ public class AuxiliarTest {
         // esperamos receber falso!
         auxiliar.setId_mecanico(10000);
         auxiliar.setNome("");
-        result = this.auxiliarBiz.validar(auxiliar);
+        result = auxiliarBiz.validar(auxiliar);
         assertThat(result).isEqualTo(expected);
 
         // esperamos receber falso!
         auxiliar.setId_mecanico(1);
         auxiliar.setNome("");
-        result = this.auxiliarBiz.validar(auxiliar);
+        result = auxiliarBiz.validar(auxiliar);
         assertThat(result).isEqualTo(expected);
 
         // esperamos receber falso!
         auxiliar.setId_mecanico(10000);
         auxiliar.setNome("Carlos");
-        result = this.auxiliarBiz.validar(auxiliar);
+        result = auxiliarBiz.validar(auxiliar);
         assertThat(result).isEqualTo(expected);
 
         //esperamos receber trues!
         expected = true;
         auxiliar.setId_mecanico(1);
         auxiliar.setNome("Carlos");
-        result = this.auxiliarBiz.validar(auxiliar);
+        result = auxiliarBiz.validar(auxiliar);
         assertThat(result).isEqualTo(expected);
 
     }
