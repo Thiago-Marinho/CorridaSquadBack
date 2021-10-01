@@ -44,43 +44,45 @@ public class MecanicoTest {
         Mecanico mecanicoResult = (Mecanico) mecanicoController.consultar(mecanicoExpected.getId());
         boolean result = mecanicoResult.equals(mecanicoExpected);
         assertThat(mecanicoResult.getId()).isEqualTo(mecanicoExpected.getId());
-        assertThat(mecanicoResult.getNome()).isEqualTo(mecanicoExpected.getNome());
-        assertThat(mecanicoResult.getId_equipe()).isEqualTo(mecanicoExpected.getId_equipe());
     }
     @Test
     public void mecanicoAlterarTest(){
         Mecanico mecanico = new Mecanico();
         mecanico.setId_equipe(1);
         mecanico.setNome("TestMecanico");
-
         Integer savedMecanicoId = mecanicoRepository.save(mecanico).getId();
-
         mecanico.setNome("TestMecanico11");
-
         mecanicoController.alterar(mecanico);
         Mecanico resultMecanico = mecanicoController.consultar(mecanico.getId());
         assertThat(resultMecanico.getNome()).isEqualTo(mecanico.getNome());
     }
     @Test
     public void mecanicoBizTest(){
+        boolean expected = true;
+        boolean result = true;
+
         MecanicoBiz mecanicoBiz = new MecanicoBiz(mecanicoRepository,equipeRepository);
         int idEquipeValido = equipeRepository.findAll().get(0).getId();
         Mecanico mecanico = new Mecanico();
         mecanico.setNome("TestMecanico");
         mecanico.setId_equipe(idEquipeValido);
-        boolean result = mecanicoBiz.validar(mecanico);
-        boolean expected = true;
-        assertThat(result).isEqualTo(expected); //Esperando result=true
+        boolean test = mecanicoBiz.validar(mecanico);
+        if(!test){
+            result=false;
+        }
 
-        expected=false;
         mecanico.setId_equipe(-1);
-        result = mecanicoBiz.validar(mecanico);
-        assertThat(result).isEqualTo(expected); //Esperando result=false
+        test = mecanicoBiz.validar(mecanico);
+        if(test){
+            result =false;
+        }
 
         mecanico.setId_equipe(idEquipeValido);
         mecanico.setNome("");
-        result = mecanicoBiz.validar(mecanico);
+        test = mecanicoBiz.validar(mecanico);
+        if(test){
+            result =false;
+        }
         assertThat(result).isEqualTo(expected); //Esperando result=false
-        
     }
 }
