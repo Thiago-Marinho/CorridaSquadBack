@@ -51,7 +51,6 @@ public class MecanicoTest {
         Mecanico mecanico = new Mecanico();
         mecanico.setId_equipe(1);
         mecanico.setNome("TestMecanico");
-        Integer savedMecanicoId = mecanicoRepository.save(mecanico).getId();
         mecanico.setNome("TestMecanico11");
         mecanicoController.alterar(mecanico);
         Mecanico resultMecanico = mecanicoController.consultar(mecanico.getId());
