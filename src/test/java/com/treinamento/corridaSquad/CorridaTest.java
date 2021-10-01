@@ -68,26 +68,35 @@ public class CorridaTest {
     }
 	@Test
 	public void corridaBizTest(){
+		boolean result = true;
+		boolean expected = true;
 		CorridaBiz corridaBiz = new CorridaBiz(corridaRepository);
 		Corrida corrida = new Corrida();
 		corrida.setDescricao("TestDrivenCorrida");
-		boolean result = corridaBiz.validar(corrida);
-		boolean expected = true;
-		assertThat(result).isEqualTo(expected); //Esperando por result=true
+		boolean teste = corridaBiz.validar(corrida);
+		if(!teste){
+			result=false;
+		}//Esperando por teste=true
 
 		corrida.setDescricao("Test Driven Corrida 2");
-		result= corridaBiz.validar(corrida);
-		assertThat(result).isEqualTo(expected); //Esperando por result=true
+		teste= corridaBiz.validar(corrida);
+		if(!teste){
+			result=false;
+		}//Esperando por teste=true
 
 		//Inicio de testes com 'corrida' inválida
 		expected = false;
 		corrida.setDescricao(" ");
-		result=corridaBiz.validar(corrida);
-		assertThat(result).isEqualTo(expected); //Esperando por result=false
+		teste=corridaBiz.validar(corrida);
+		if(teste){
+			result=false;
+		}//Esperando por teste=false
 
 
 		corrida.setDescricao("");
-		result=corridaBiz.validar(corrida);
+		if(teste){
+			result=false;
+		}//Esperando por teste=false
 		assertThat(result).isEqualTo(expected); //Esperando por result=false
 
 	}
