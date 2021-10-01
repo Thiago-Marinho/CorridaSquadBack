@@ -31,10 +31,11 @@ public class CarroCorridaPilotoBiz {
 	public Boolean validar(CarroCorridaPiloto carroCorridaPiloto) {
 		Boolean validacao = true;
 		
+		
 		if(carroCorridaPiloto.getId_carro() == null) {
 			mensagem.getMensagem().add("O Carro não deve ser vazio!");
 			validacao = false;
-		}else if(carroRepository.findById(carroCorridaPiloto.getId_carro()).isEmpty()) {
+		} else if(carroRepository.findById(carroCorridaPiloto.getId_carro()).isEmpty()) {
 			mensagem.getMensagem().add("O carro não está cadastrado!");
 			validacao = false;
 		}

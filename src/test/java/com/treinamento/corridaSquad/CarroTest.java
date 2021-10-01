@@ -2,17 +2,15 @@ package com.treinamento.corridaSquad;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import com.treinamento.corridaSquad.biz.CarroBiz;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import com.treinamento.corridaSquad.biz.CarroBiz;
 import com.treinamento.corridaSquad.controller.CarroController;
 import com.treinamento.corridaSquad.entities.Carro;
 import com.treinamento.corridaSquad.repositories.CarroRepository;
 import com.treinamento.corridaSquad.repositories.EquipeRepository;
-
-import java.util.List;
 
 @SpringBootTest
 public class CarroTest {

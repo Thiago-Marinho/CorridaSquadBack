@@ -76,7 +76,7 @@ public class CarroCorridaPilotoController {
 				carroCorridaPilotoBiz.getMensagem().mensagem.add("Erro ao alterar!");
 			}
 		} catch (Exception e) {
-			carroCorridaPilotoBiz.getMensagem().mensagem.add("Erro ao incluir: " + e.getMessage());
+			carroCorridaPilotoBiz.getMensagem().mensagem.add("Erro ao alterar: " + e.getMessage());
 		}
 		return carroCorridaPilotoBiz.getMensagem();
 	}

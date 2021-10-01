@@ -7,6 +7,9 @@ import java.util.List;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 
 import com.treinamento.corridaSquad.biz.CarroCorridaPilotoBiz;
 import com.treinamento.corridaSquad.controller.CarroCorridaPilotoController;
@@ -44,13 +47,11 @@ public class CarroCorridaPilotoTest {
     
     @Test
     public void CarroCorridaPilotoControllerConsultarTest() {
-        List<CarroCorridaPiloto> ListaCarroCorridaPiloto = this.carroCorridaPilotoRepository.findAll();
-        CarroCorridaPiloto expected = ListaCarroCorridaPiloto.get(2);
+
+    	CarroCorridaPiloto expected = this.obterPrimeiroRegistro();
         CarroCorridaPiloto result = this.carroCorridaPilotoController.consultar(expected.getId());
         assertThat(expected.getId()).isEqualTo(result.getId());
-        assertThat(expected.getId_carro()).isEqualTo(result.getId_carro());
-        assertThat(expected.getId_corrida()).isEqualTo(result.getId_corrida());
-        assertThat(expected.getId_piloto()).isEqualTo(result.getId_piloto());
+ 
     }
 
     @Test
@@ -67,28 +68,33 @@ public class CarroCorridaPilotoTest {
 
     @Test
     public void CarroCorridaPilotoControllerAlterarTest() {
-
-        List<CarroCorridaPiloto> ListaCarroCorridaPiloto = this.carroCorridaPilotoRepository.findAll();
-        CarroCorridaPiloto carroCorridaPiloto = ListaCarroCorridaPiloto.get(6);
-        Integer expectedIdCarro = carroCorridaPiloto.getId_carro();
-        Integer expectedIdCorrida = carroCorridaPiloto.getId_corrida();
-        Integer expectedIdPiloto= carroCorridaPiloto.getId_piloto();
+    	
+    	Boolean expected = true;
+    	Boolean result = false;
+    	
+    	CarroCorridaPiloto carroCorridaPilotoUpdate = obterPrimeiroRegistro();
+    	
+        carroCorridaPilotoUpdate.setId_carro(3);
+        carroCorridaPilotoUpdate.setId_corrida(3);
+        carroCorridaPilotoUpdate.setId_piloto(3);
+        Mensagem msg = this.carroCorridaPilotoController.alterar(carroCorridaPilotoUpdate);
         
-        CarroCorridaPiloto carroCorridaPilotoUpdate = new CarroCorridaPiloto();
-        carroCorridaPilotoUpdate.setId(carroCorridaPiloto.getId());
-        carroCorridaPilotoUpdate.setId_carro(4);
-        carroCorridaPilotoUpdate.setId_corrida(2);
-        carroCorridaPilotoUpdate.setId_piloto(1);
-       
-        this.carroCorridaPilotoController.alterar(carroCorridaPilotoUpdate);
-        carroCorridaPiloto  = carroCorridaPilotoController.consultar(carroCorridaPiloto.getId());
+        if (msg.ContemErro()){
+        	result = false;
+        } else {
+	        CarroCorridaPiloto carroCorridaPiloto  = 
+	        		carroCorridaPilotoController.consultar(carroCorridaPilotoUpdate.getId());
+    	 
+	        if (  carroCorridaPiloto.getId() == carroCorridaPilotoUpdate.getId() &&
+	        		carroCorridaPiloto.getId_carro() == carroCorridaPilotoUpdate.getId_carro() && 
+	        		carroCorridaPiloto.getId_corrida() == carroCorridaPilotoUpdate.getId_corrida() &&
+	        		carroCorridaPiloto.getId_piloto() == carroCorridaPilotoUpdate.getId_piloto()
+	        	) {
+	        	result = true;
+	        }
+        }
+        assertThat(result).isEqualTo(expected);
 
-        Integer resultIdCarro = carroCorridaPiloto.getId_carro();
-        Integer resultIdCorrida = carroCorridaPiloto.getId_corrida();
-        Integer resultIdPiloto = carroCorridaPiloto.getId_piloto();
-        assertThat(carroCorridaPilotoUpdate.getId_carro()).isNotEqualTo(resultIdCarro);
-        assertThat(carroCorridaPilotoUpdate.getId_corrida()).isNotEqualTo(resultIdCorrida);
-        assertThat(carroCorridaPilotoUpdate.getId_piloto()).isNotEqualTo(resultIdPiloto);
     }
     
     @Test
@@ -97,27 +103,37 @@ public class CarroCorridaPilotoTest {
     	CarroCorridaPilotoBiz carroCorridaPilotoBiz = new CarroCorridaPilotoBiz(corridaRepository, carroRepository, pilotoRepository);
     	
     	Boolean result = true;
-        Boolean expected = false;
+        Boolean expected = true;
 
         CarroCorridaPiloto carroCorridaPiloto = new CarroCorridaPiloto();
        
         // esperamos receber falso!
-        carroCorridaPiloto.setId_carro(50);
-                
-        result = carroCorridaPilotoBiz.validar(carroCorridaPiloto);
-        assertThat(result).isEqualTo(expected);
+        carroCorridaPiloto.setId_carro(9999);
+        if (carroCorridaPilotoBiz.validar(carroCorridaPiloto)) {
+        	result = false;
+        }
         
-        // esperamos receber verdadeiro!
-        carroCorridaPiloto.setId_corrida(5);
-                
-        result = carroCorridaPilotoBiz.validar(carroCorridaPiloto);
-        assertThat(result).isEqualTo(expected);
-        
+        // esperamos receber false!
+        carroCorridaPiloto.setId_corrida(9999);
+        if (carroCorridaPilotoBiz.validar(carroCorridaPiloto)) {
+        	result = false;
+        }
+
         // esperamos receber falso!
-        carroCorridaPiloto.setId_piloto(70);
+        carroCorridaPiloto.setId_piloto(9999);
         
-        result = carroCorridaPilotoBiz.validar(carroCorridaPiloto);
+        if (carroCorridaPilotoBiz.validar(carroCorridaPiloto)) {
+        	result = false;
+        }
+        
         assertThat(result).isEqualTo(expected);
 
     }
+    
+    public CarroCorridaPiloto obterPrimeiroRegistro() {
+    	Page<CarroCorridaPiloto> pagina = carroCorridaPilotoRepository.findAll(
+    	    	PageRequest.of(0, 1, Sort.by(Sort.Direction.DESC, "id")));
+    	return pagina.toList().get(0);
+    }
+   
 }

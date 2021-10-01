@@ -10,10 +10,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import com.treinamento.corridaSquad.biz.PilotoBiz;
 import com.treinamento.corridaSquad.controller.PilotoController;
-import com.treinamento.corridaSquad.entities.CarroCorridaPiloto;
-import com.treinamento.corridaSquad.entities.Corrida;
 import com.treinamento.corridaSquad.entities.Piloto;
-import com.treinamento.corridaSquad.entities.Servico;
 import com.treinamento.corridaSquad.repositories.EquipeRepository;
 import com.treinamento.corridaSquad.repositories.PilotoRepository;
 @SpringBootTest
