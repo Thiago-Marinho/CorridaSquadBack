@@ -4,6 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.List;
 
+import com.treinamento.corridaSquad.biz.CorridaBiz;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -19,7 +20,7 @@ public class CorridaTest {
 	 CorridaController corridaController;
 	 @Autowired
 	 CorridaRepository corridaRepository;
-	 
+
 	 @Test
 	 public void carroListarTest(){
 		 Integer expected = 0;
@@ -65,5 +66,30 @@ public class CorridaTest {
         Corrida result = corridaController.consultar(corrida.getId());
         assertThat(result.getDescricao()).isEqualTo(corrida.getDescricao());
     }
+	@Test
+	public void corridaBizTest(){
+		CorridaBiz corridaBiz = new CorridaBiz(corridaRepository);
+		Corrida corrida = new Corrida();
+		corrida.setDescricao("TestDrivenCorrida");
+		boolean result = corridaBiz.validar(corrida);
+		boolean expected = true;
+		assertThat(result).isEqualTo(expected); //Esperando por result=true
+
+		corrida.setDescricao("Test Driven Corrida 2");
+		result= corridaBiz.validar(corrida);
+		assertThat(result).isEqualTo(expected); //Esperando por result=true
+
+		//Inicio de testes com 'corrida' inválida
+		expected = false;
+		corrida.setDescricao(" ");
+		result=corridaBiz.validar(corrida);
+		assertThat(result).isEqualTo(expected); //Esperando por result=false
+
+
+		corrida.setDescricao("");
+		result=corridaBiz.validar(corrida);
+		assertThat(result).isEqualTo(expected); //Esperando por result=false
+
+	}
 	 	
 }

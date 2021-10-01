@@ -16,18 +16,17 @@ import java.util.List;
 
 @SpringBootTest
 public class CarroTest {
-	
-	
+
 	@Autowired
 	CarroRepository carroRepository;
+
 	@Autowired
 	EquipeRepository equipeRepository;
 	
 	@Autowired
 	CarroController controller;
 
-	CarroBiz carroBiz = new CarroBiz(equipeRepository);
-	
+
 	@Test
 	public void CarroRepositoryTest() {
 		
@@ -61,8 +60,8 @@ public class CarroTest {
 	}
 	@Test
 	public void CarroBizTest(){
+		CarroBiz carroBiz = new CarroBiz(equipeRepository);
 		int idEquipeValido = equipeRepository.findAll().get(0).getId();
-
 		boolean expected = true;
 		Carro carro = new Carro();
 		carro.setDescricao("TestDrivenCarro");
@@ -94,12 +93,12 @@ public class CarroTest {
 		assertThat(result).isEqualTo(expected); //esperando por result=false
 
 
-		carro.setNumero(null);
+		carro.setNumero("");
 		result=carroBiz.validarCarro(carro);
 		assertThat(result).isEqualTo(expected); //esperando por result=false
 
 		carro.setNumero("1234");
-		carro.setDescricao(null);
+		carro.setDescricao("");
 		result=carroBiz.validarCarro(carro);
 		assertThat(result).isEqualTo(expected); //esperando por result=false
 
