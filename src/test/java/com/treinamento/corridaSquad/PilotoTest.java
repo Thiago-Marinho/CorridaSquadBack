@@ -2,11 +2,12 @@ package com.treinamento.corridaSquad;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import java.util.List;
-
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 
 import com.treinamento.corridaSquad.biz.PilotoBiz;
 import com.treinamento.corridaSquad.controller.PilotoController;
@@ -40,7 +41,7 @@ public class PilotoTest {
 		Integer expected = (int) this.pilotoRepository.count() + 1;
 		
 		Piloto novo = new Piloto();
-		novo.setNome("Maclaren");
+		novo.setNome("Roberval Andrade");
 		novo.setId_equipe(equipeRepository.findById(1).get().getId());
 		pilotoRepository.save(novo);
 		pilotoRepository.flush();
@@ -62,29 +63,40 @@ public class PilotoTest {
 	@Test
 	public void PilotoControllerConsultarTest() {
 		
-		List<Piloto> ListPiloto = this.pilotoRepository.findAll();
-        Piloto expectedObject = ListPiloto.get(1);
-        Piloto resultObject = this.controller.getOne(expectedObject.getId());
+		
+        Piloto umPiloto =obterPrimeiroRegistro();
+        Integer expected = umPiloto.getId();
+        Piloto getPiloto = this.controller.getOne(expected);
+        Integer result = getPiloto.getId();
+        
 
-
-		assertThat(expectedObject.getId()).isEqualTo(resultObject.getId());
-		assertThat(expectedObject.getNome()).isEqualTo(resultObject.getNome());
+		assertThat(result).isEqualTo(expected);
 
 	}
 	@Test
 	public void PilotoControllerAlterarTest() {
 
-        Piloto piloto = new Piloto();
+		Boolean expected = true;
+    	Boolean result = false;
+    	
+    	Piloto pilotoUpdate = obterPrimeiroRegistro();
+    	
+    	pilotoUpdate.setNome("Rubim");
+    	pilotoUpdate.setId_equipe(3);
+    
+        Mensagem msg = this.controller.alterarPiloto(pilotoUpdate);
         
-        piloto.setNome("Vetel");
-        piloto.setId_equipe(2);
-        pilotoRepository.save(piloto).getId();
-
-        piloto.setNome("Vetel Valocit");
-
-        controller.alterarPiloto(piloto);
-        Piloto result = controller.getOne(piloto.getId());
-        assertThat(result.getNome()).isEqualTo(piloto.getNome());
+        if (msg.ContemErro()){
+        	result = false;
+        } else {
+	        Piloto piloto  = controller.getOne(pilotoUpdate.getId());
+    	 
+	        if (piloto.getId() == pilotoUpdate.getId()) {
+	        	result = true;
+	        }
+        }
+        
+        assertThat(result).isEqualTo(expected);
     }
 	@Test
 	public void PilotoBizValidarTest() {
@@ -104,5 +116,11 @@ public class PilotoTest {
         System.out.println(result);
         assertThat(expected).isEqualTo(result);
                                                      
+    }
+	
+	public Piloto obterPrimeiroRegistro() {
+    	Page<Piloto> pagina = pilotoRepository.findAll(
+    	    	PageRequest.of(0, 1, Sort.by(Sort.Direction.ASC, "id")));
+    	return pagina.toList().get(0);
     }
 }

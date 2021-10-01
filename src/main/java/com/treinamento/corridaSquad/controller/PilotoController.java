@@ -57,7 +57,7 @@ public class PilotoController {
 		try {
 			if (validador.validar(piloto)) {
 			pilotoRepositorio.save(piloto);
-			pilotoRepositorio.flush();			
+						
 			validador.getMensagem().mensagem.add("Alterado com sucesso");
 			}else {
             	validador.getMensagem().mensagem.add("Erro ao alterar");
