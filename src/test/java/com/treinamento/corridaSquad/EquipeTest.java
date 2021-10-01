@@ -71,7 +71,7 @@ public class EquipeTest {
 	        		equipeController.consultar(equipeUpdate.getId());
     	 
 	        if (  equipe.getId() == equipeUpdate.getId() &&
-	        		equipe.getNome() == equipeUpdate.getNome()) {
+	        		equipe.getNome().equals(equipeUpdate.getNome())) {
 	        	result = true;
 	        }
         }

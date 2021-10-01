@@ -39,7 +39,7 @@ public class CarroTest {
 		Carro novo = new Carro();
 		novo.setDescricao("Maclaren");
 		novo.setId_equipe( equipeRepository.findById(1).get().getId()  );
-		novo.setNumero("3464");
+		novo.setNumero(1111);
 		carroRepository.save(novo);
 		carroRepository.flush();
 		Integer result = (int) carroRepository.count();
@@ -65,7 +65,7 @@ public class CarroTest {
 		Carro carro = new Carro();
 		carro.setDescricao("TestDrivenCarro");
 		carro.setId_equipe(idEquipeValido);
-		carro.setNumero("ABCD");
+		carro.setNumero(1423);
 		boolean teste = carroBiz.validarCarro(carro);
 		if(!teste){
 			result=false;
@@ -73,7 +73,7 @@ public class CarroTest {
 
 		carro.setDescricao("TestDrivenCarro2");
 		carro.setId_equipe(idEquipeValido);
-		carro.setNumero("DCBA");
+		carro.setNumero(23423);
 		teste=carroBiz.validarCarro(carro);
 		if(!teste){
 			result=false;
@@ -95,20 +95,20 @@ public class CarroTest {
 
 
 		carro.setId_equipe(idEquipeValido);
-		carro.setNumero("12345678910");
+		carro.setNumero(0);
 		teste=carroBiz.validarCarro(carro);
 		if(teste){
 			result=false;
 		} //esperando por teste=false
 
 
-		carro.setNumero("");
+		carro.setNumero(0);
 		teste=carroBiz.validarCarro(carro);
 		if(teste){
 			result=false;
 		} //esperando por teste=false
 
-		carro.setNumero("1234");
+		carro.setNumero(234);
 		carro.setDescricao("");
 		teste=carroBiz.validarCarro(carro);
 		if(teste){
